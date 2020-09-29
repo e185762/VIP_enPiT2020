@@ -54,3 +54,19 @@ git-flowに従う
 `make flyway/migrate`
 
 で大抵直る。
+
+
+## ブランチ
+#かいちゃんブランチを作る
+ git checkout -b kaityan
+
+ ＃カイちゃんブランチに切り替える
+ git checkout -b kaityan
+ ＃カイちゃんブランチにpush（基本developにはpushしない）
+  git push origin kaityan
+
+
+  ## push手順
+  git add .
+  git commit -m "コミットメッセージ"
+  git push origin [自分のブランチ]
