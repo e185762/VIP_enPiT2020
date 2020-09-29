@@ -56,12 +56,13 @@ git-flowに従う
 で大抵直る
 
 ## ブランチ
-#かいちゃんブランチを作る
+かいちゃんブランチを作る
 `git checkout -b kaityan`
 
-＃ かいちゃんブランチに切り替える
+かいちゃんブランチに切り替える
 `git checkout -b kaityan`
-＃ かいちゃんブランチにpush（基本developにはpushしない）
+
+かいちゃんブランチにpush（基本developにはpushしない）
 `git push origin kaityan`
 
 ## push手順
