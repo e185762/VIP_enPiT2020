@@ -53,4 +53,4 @@ git-flowに従う
 
 `make flyway/migrate`
 
-で大抵直る
+で大抵直る。
