@@ -53,6 +53,7 @@ git-flowに従う
 
 `make flyway/migrate`
 
+<<<<<<< HEAD
 で大抵直る
 
 ## ブランチ
@@ -70,3 +71,22 @@ git-flowに従う
 `git commit -m "コミットメッセージ"`
 
 `git push origin [自分のブランチ]`
+=======
+で大抵直る。
+
+
+## ブランチ
+#かいちゃんブランチを作る
+ git checkout -b kaityan
+
+ ＃カイちゃんブランチに切り替える
+ git checkout -b kaityan
+ ＃カイちゃんブランチにpush（基本developにはpushしない）
+  git push origin kaityan
+
+
+  ## push手順
+  git add .
+  git commit -m "コミットメッセージ"
+  git push origin [自分のブランチ]
+>>>>>>> 90601e826ed41eb95bc79b4cc5ea400bbba845f4
