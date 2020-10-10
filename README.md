@@ -2,6 +2,9 @@
 enPiT2020 VIP班のgitリポジトリです。
 チーム名：びっぷはん
 
+## ホームページURL
+　[HOME PAGE](http://13.113.194.238:443/)
+
 ## エレベーターピッチ
 `自分のイメージする洋服が探しづらい`を解決したい`洋服を探したい人`向けの
 
@@ -15,9 +18,6 @@ enPiT2020 VIP班のgitリポジトリです。
 ・遅刻をする時は、朝ごはんチャンネル or mattermostで何分遅れるかを連絡する。
 
 ・連絡は基本mattermostで重要な連絡は@channelや@メンバー名にてメンションを行う。
-
-## ホームページURL
-　[HOME PAGE](http://13.113.194.238:443/)
 
 ## プロジェクトバックログ
 　[ProductBacklog](https://github.com/e185762/VIP_enPiT2020/projects/1)
