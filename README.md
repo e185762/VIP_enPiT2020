@@ -1,73 +1,16 @@
-# VIP_enPiT2020
+# DFS(Designed Fashion Selenes)
+enPiT2020 VIP班のgitリポジトリです。
+チーム名：びっぷはん
 
-## ディレクトリ構成
+## エレベーターピッチ
+`自分のイメージする洋服が探しづらい`を解決したい`洋服を探したい人`向けの
 
-```
-.
-├──app // フロントサイドコード
-├──docs // データ定義など
-├──server // サーバサイドコード
-│    ├──gen // swaggerが吐き出すファイルの保存先
-│    ├──handler 
-│    └──main.go
-├──docker-compose.yml
-├──Dockerfile
-└──README.md
-```
+`簡単に洋服検索できる`を実現する`DFS`です。
 
-## サーバの起動
-環境変数を設定
-```
-export DBENV=localhost
-```
-ローカルでサーバを起動する
-```
-# 起動
-make local/run
-```
+これは`絵から洋服を検索すること`ができ、`既存の画像洋服検索`とは違って
 
-dockerを利用してサーバを起動
-```
-# 起動
-make docker/run
+`自分のイメージに近い洋服の画像を探さなくていいという利点`が備わっています。
 
-# 停止
-make docker/stop
-```
-
-## 開発flow
-git-flowに従う
-
-## client直接さわりたいとき
-`make mysql/client`で入れる
-
-## migrateしたいとき
-`database/migration/schema`にmigrationファイルを書き、
-
-`make flyway/migrate`でmigrate
-
-## migration失敗してどうにもならなくなったとき
-`make flyway/clean`
-
-`make flyway/baseline`
-
-`make flyway/migrate`
-
-で大抵直る
-
-## ブランチ
-かいちゃんブランチを作る
-`git checkout -b kaityan`
-
-かいちゃんブランチに切り替える
-`git checkout -b kaityan`
-
-かいちゃんブランチにpush（基本developにはpushしない）
-`git push origin kaityan`
-
-## push手順
-`git add .`
-
-`git commit -m "コミットメッセージ"`
-
-`git push origin [自分のブランチ]`
+## ワーニングアグリーメント
+・遅刻をする時は、朝ごはんチャンネル or mattermostで何分遅れるかを連絡する。
+・連絡は基本mattermostで重要な連絡は@channelや@メンバー名にてメンションを行う。
