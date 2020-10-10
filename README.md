@@ -17,7 +17,7 @@ enPiT2020 VIP班のgitリポジトリです。
 ・連絡は基本mattermostで重要な連絡は@channelや@メンバー名にてメンションを行う。
 
 ## プロジェクトバックログ
-　[ProductBacklog]:https://github.com/e185762/VIP_enPiT2020/projects/1
+　[ProductBacklog](https://github.com/e185762/VIP_enPiT2020/projects/1)
 
 ## KPT振り返りログ
-　
+　[KPTlog](https://github.com/e185762/VIP_enPiT2020/projects/2)
