@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+ <head>
+ <link rel="stylesheet" type="text/css" href="style.css">
+ <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+ <meta charset="utf-8">
+   <title>[DFS]~designed fashion selenes~</title>
+ </head>
+ <body>
+ 
+	 <center><h1 class="text">ようこそ！</h1><br>
+		 <p class="text">このサイトは自分のデザインから類似した服を見つけることができます</p><br>
+<!--	 <center>画像を探してね<br>あなたが落としたのは綺麗な服？イラストや？</center>
+	 <img class="just" src="home.jpg">
+	 <img class="just" src="shichaku_woman.png"><br>
+	 <left>アップロードしたい画像を選んでね<left><br>
+	 <input type="file" id="sample" accept="image/*" multiple><br>
+	 <div id="preview"></div>
+-->
+	<h2 class="text">まずは自分のイメージする洋服を描いてみよう</center></h2>
+	<center><canvas id="canvas" width="640px" height="480px">残念ながらHTML5に対応していません<style>
+    canvas {
+        background-color: white;
+        border: solid 5px brown;
+    } 
+			</style></center>
+			<p><center><button id="clear">全削除</button></center></p>
+
+
+<script type="text/javascript">
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+ctx.strokeStyle = 'rgb(112,128,144)'; //枠線の色は青
+
+//マウスを操作する
+var mouse = {x:0,y:0,x1:0,y1:0,color:"black"};
+var draw = false;
+
+//マウスの座標を取得する
+canvas.addEventListener("mousemove",function(e) {
+  var rect = e.target.getBoundingClientRect();
+  ctx.lineWidth = 5;
+  ctx.globalAlpha = 1;
+
+  mouseX = e.clientX - rect.left;
+  mouseY = e.clientY - rect.top;
+
+
+  //クリック状態なら描画をする
+  if(draw === true) {
+    ctx.beginPath();
+    ctx.moveTo(mouseX1,mouseY1);
+    ctx.lineTo(mouseX,mouseY);
+    ctx.lineCap = "round";
+    ctx.stroke();
+    mouseX1 = mouseX;
+    mouseY1 = mouseY;
+  }
+});
+
+  //クリックしたら描画をOKの状態にする
+  canvas.addEventListener("mousedown",function(e) {
+    draw = true;
+    mouseX1 = mouseX;
+    mouseY1 = mouseY;
+    undoImage = ctx.getImageData(0, 0,canvas.width,canvas.height);
+});
+
+//クリックを離したら、描画を終了する
+canvas.addEventListener("mouseup", function(e){
+  draw = false;
+});
+
+//消去ボタンを起動する
+ $('#clear').click(function(e) {
+ 		if(!confirm('本当に消去しますか？')) return;
+        e.preventDefault();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+</script>
+ </body>
+</html>
