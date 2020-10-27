@@ -1,10 +1,16 @@
 var express = require('express');
 var app = express();
-
+var {PythonShell} = require('python-shell');
+PythonShell.run('color.py', null, function (err, data) {
+  if (err) throw err;
+    console.log(data);
+    console.log('finished');
+});
 app.use(express.static('images'))
 app.get('/', function (req, res) {
     res.sendfile('index.html');
 });
+
 app.listen(443)
 
 //function previewFile(file) {
