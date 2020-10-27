@@ -22,15 +22,26 @@
     <canvas id="canvas" width="640px" height="640px">残念ながらHTML5に対応していません
   </center>
       <p><input id="inputColor" type="color" value="#ff0000"></p>
-      <p><center><button id="eraser">消しゴム</button></center></p>
-      <p><center><button id="clear">全削除</button></center></p>
+      <p><button id="eraser">消しゴム</button></p>
+      <p><button id="clear">全削除</button></p>
+      <p><a id="buttonSave" href="#" download="canvas.png">保存する</a></p>
       
 
       
 <script type="text/javascript">
+//const fs = require('fs');
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 //ctx.strokeStyle = 'rgb(112,128,144)'; //枠線の色は青
+
+// Image オブジェクトを生成
+var img = new Image();
+img.src = "Tshirt.png";
+
+// 画像読み込み終了してから描画
+img.onload = function(){
+    ctx.drawImage(img, 0, 0, 600, 600);
+}
 
 
 //マウスを操作する
@@ -89,6 +100,19 @@ $('#inputColor').click(function(e) {
   var paintColor = document.querySelector("#inputColor").value;
     ctx.strokeStyle = paintColor
     });
+
+// 保存ボタンの処理
+$('#buttonSave').click(function(e) {
+  var canvas = document.getElementById('canvas');
+  var base64 = canvas.toDataURL("image/png");
+      document.getElementById("buttonSave").href = base64;
+
+  fs.writeFile('downloads/test.txt', 'Hello!', function (err) {
+    if (err) { throw err; }
+    console.log('test.txtが作成されました');
+});
+});
+
 </script>
  </body>
 </html>
