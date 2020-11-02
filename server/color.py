@@ -292,7 +292,9 @@ def Similar_Search (hist_g_R, hist_g_G, hist_g_B, label):
           if i[0] == j:
               url.append(i[1])
 
-  print(url)
+  print("/T_shirt/T_shirt_01.jpg")
+  print(url[0])
+  print(url[1])
 
   for image in url:
     img = mpimg.imread(image)
@@ -308,5 +310,6 @@ def main():
 
   hist_R,hist_G,hist_B,label = color_histogram(image,label)
   Similar_Search(hist_R,hist_G,hist_B,label)
+
 
 main()
