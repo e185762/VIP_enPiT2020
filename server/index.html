@@ -10,13 +10,6 @@
  
 	 <center><h1 class="text">ようこそ！</h1><br>
 		 <p class="text">このサイトは自分のデザインから類似した服を見つけることができます</p><br>
-<!--	 <center>画像を探してね<br>あなたが落としたのは綺麗な服？イラストや？</center>
-	 <img class="just" src="home.jpg">
-	 <img class="just" src="shichaku_woman.png"><br>
-	 <left>アップロードしたい画像を選んでね<left><br>
-	 <input type="file" id="sample" accept="image/*" multiple><br>
-	 <div id="preview"></div>
--->
 	<h2 class="text">まずは自分のイメージする洋服を描いてみよう</center></h2>
 	<center>
     <canvas id="canvas" width="640px" height="640px">残念ながらHTML5に対応していません
@@ -89,7 +82,8 @@ canvas.addEventListener("mouseup", function(e){
  		if(!confirm('本当に消去しますか？')) return;
         e.preventDefault();
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-    });
+    ctx.drawImage(img, 0, 0, 600, 600);
+  });
 
 //消しゴムボタンを起動する
 　$('#eraser').click(function(e) {
