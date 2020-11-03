@@ -103,17 +103,31 @@ $('#inputColor').click(function(e) {
 
 // 保存ボタンの処理
 $('#buttonSave').click(function(e) {
+  const SAVE_URL = 'http://localhost:443/download';
   var canvas = document.getElementById('canvas');
   var base64 = canvas.toDataURL("image/png");
-      document.getElementById("buttonSave").href = base64;
+  console.log(base64);
+  // 送信情報の設定
+  if (base64) {
+    // サーバへ送信
+    sendServer(base64);
+    document.getElementById("buttonSave").href = base64;
+  }
+});
 
-  fs.writeFile('downloads/test.txt', 'Hello!', function (err) {
-    if (err) { throw err; }
-    console.log('test.txtが作成されました');
-});
-});
+async function sendServer(param) {
+  
+  return fetch('./download', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      body: JSON.stringify({data: param})
+    }).then((response) => response.json());
+}
+
 
 </script>
- </body>
+</body>
 </html>
 
