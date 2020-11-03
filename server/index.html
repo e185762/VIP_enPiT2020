@@ -26,7 +26,7 @@
 //const fs = require('fs');
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-ctx.strokeStyle = 'rgb(255,0,0)';
+ctx.strokeStyle = 'rgb(255,0,0)';//初期描画線の色赤
 
 // Image オブジェクトを生成
 var img = new Image();
@@ -34,7 +34,7 @@ img.src = "Tshirt.png";
 
 // 画像読み込み終了してから描画
 img.onload = function(){
-    ctx.drawImage(img, 0, 0, 600, 600);
+    ctx.drawImage(img, -10, 0, 660, 660);
 }
 
 
