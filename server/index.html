@@ -32,7 +32,7 @@
 //const fs = require('fs');
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-//ctx.strokeStyle = 'rgb(112,128,144)'; //枠線の色は青
+ctx.strokeStyle = 'rgb(255,0,0)';
 
 // Image オブジェクトを生成
 var img = new Image();
@@ -71,7 +71,8 @@ canvas.addEventListener("mousemove",function(e) {
 });
 
   //クリックしたら描画をOKの状態にする
-  canvas.addEventListener("mousedown",function(e) {
+canvas.addEventListener("mousedown",function(e) {
+    ctx.strokeStyle = document.querySelector("#inputColor").value;
     draw = true;
     mouseX1 = mouseX;
     mouseY1 = mouseY;
@@ -97,9 +98,8 @@ canvas.addEventListener("mouseup", function(e){
 
 //色を選択して変更する
 $('#inputColor').click(function(e) {
-  var paintColor = document.querySelector("#inputColor").value;
-    ctx.strokeStyle = paintColor
-    });
+  ctx.strokeStyle = document.querySelector("#inputColor").value;
+});
 
 // 保存ボタンの処理
 $('#buttonSave').click(function(e) {
