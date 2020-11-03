@@ -16,10 +16,10 @@ app.post('/download', (req, res) => {
   // クライアントからの送信データを取得する
   let body = req.body;
   let parse = JSON.parse(JSON.stringify(body));
-
-// fs.writeFile("./image.png", parse.data, function(err) {
-//   if (err) throw err;
-// });
+  let parse_data = parse.data;
+  var data = parse_data.replace(/^data:image\/\w+;base64,/, "");
+  var buf = Buffer.from(data, 'base64');
+  fs.writeFile('./images/downloads/image.png', buf);
 });
 
 app.listen(443);
