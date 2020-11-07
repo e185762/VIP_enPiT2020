@@ -10,33 +10,23 @@
  
 	 <center><h1 class="text">ようこそ！</h1><br>
 		 <p class="text">このサイトは自分のデザインから類似した服を見つけることができます</p><br>
-<!--	 <center>画像を探してね<br>あなたが落としたのは綺麗な服？イラストや？</center>
-	 <img class="just" src="home.jpg">
-	 <img class="just" src="shichaku_woman.png"><br>
-	 <left>アップロードしたい画像を選んでね<left><br>
-	 <input type="file" id="sample" accept="image/*" multiple><br>
-	 <div id="preview"></div>
--->
 	<h2 class="text">まずは自分のイメージする洋服を描いてみよう</center></h2>
 	<center>
     <canvas id="canvas" width="640px" height="640px">残念ながらHTML5に対応していません
   </center>
-      <p><input id="inputColor" type="color" value="#ff0000"></p>
-      <p><button id="eraser">消しゴム</button></p>
-      <p><button id="clear">全削除</button></p>
-      <p><a id="buttonSave" href="#" download="canvas.png" name="image">保存する</a></p>
-     <form action="/upload" method="POST" enctype="multipart/form-data"　id="form">
-         <input name="image" type="file">
-         <input type="submit" name="sub_buttono" value="Upload">
-     </form>
-      
+      <div>
+      <input id="inputColor" type="color" value="#ff0000">
+      <button id="eraser">消しゴム</button>
+      <button id="clear">全削除</button>
+      <a id="buttonSave" href="#" download="canvas.png">保存する</a>
+      </div>
 
       
-<script type="text/javascript"　src="https://unpkg.com/axios/dist/axios.min.js">
+<script type="text/javascript">
 //const fs = require('fs');
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-//ctx.strokeStyle = 'rgb(112,128,144)'; //枠線の色は青
+ctx.strokeStyle = 'rgb(255,0,0)';//初期描画線の色赤
 
 // Image オブジェクトを生成
 var img = new Image();
@@ -44,7 +34,7 @@ img.src = "Tshirt.png";
 
 // 画像読み込み終了してから描画
 img.onload = function(){
-    ctx.drawImage(img, 0, 0, 600, 600);
+    ctx.drawImage(img, -10, 0, 660, 660);
 }
 
 
@@ -75,7 +65,8 @@ canvas.addEventListener("mousemove",function(e) {
 });
 
   //クリックしたら描画をOKの状態にする
-  canvas.addEventListener("mousedown",function(e) {
+canvas.addEventListener("mousedown",function(e) {
+    ctx.strokeStyle = document.querySelector("#inputColor").value;
     draw = true;
     mouseX1 = mouseX;
     mouseY1 = mouseY;
@@ -92,7 +83,8 @@ canvas.addEventListener("mouseup", function(e){
  		if(!confirm('本当に消去しますか？')) return;
         e.preventDefault();
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-    });
+    ctx.drawImage(img, 0, 0, 600, 600);
+  });
 
 //消しゴムボタンを起動する
 　$('#eraser').click(function(e) {
@@ -101,30 +93,14 @@ canvas.addEventListener("mouseup", function(e){
 
 //色を選択して変更する
 $('#inputColor').click(function(e) {
-  var paintColor = document.querySelector("#inputColor").value;
-    ctx.strokeStyle = paintColor
-    });
+  ctx.strokeStyle = document.querySelector("#inputColor").value;
+});
 
 // 保存ボタンの処理
 $('#buttonSave').click(function(e) {
   const SAVE_URL = 'http://localhost:443/download';
   var canvas = document.getElementById('canvas');
   var base64 = canvas.toDataURL("image/png");
-  document.getElementById("buttonSave").href = base64;
-
-  var formObj = document.getElementById("form");
-
-  var params = new FormData();
-  params.append('name', base64)
-  axios.post('/upload', params,{
-      'Content-Type': 'multipart/form-data'
-  });
-
-
-  fs.writeFile('downloads/test.txt', 'Hello!', function (err) {
-    if (err) { throw err; }
-    console.log('test.txtが作成されました');
-});
   // console.log(base64);
   // 送信情報の設定
   if (base64) {

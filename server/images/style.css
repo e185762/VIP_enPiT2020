@@ -34,3 +34,10 @@ canvas {
   background-size: 100% 100%;
   border: solid 5px brown;
 }
+
+button{
+  display:inline-block;/*コレ*/
+  }
+  div{
+  text-align:center;
+  }
