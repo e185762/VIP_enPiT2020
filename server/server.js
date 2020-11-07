@@ -1,5 +1,8 @@
 var express = require('express');
+var bodyParser = require('body-parser')
+var fs = require('fs');
 var app = express();
+
 var {PythonShell} = require('python-shell');
 
 app.set("view engine", "ejs");
@@ -24,6 +27,13 @@ var cloth_result=[];
 app.use(express.static('images'))
 app.use(express.static('image'))
 
+
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(express.static('images'));
+app.use(bodyParser.json());
+
 app.get('/', function (req, res) {
     res.sendfile('index.html');
     //res.render("test",{file:cloth_import});
@@ -35,75 +45,21 @@ app.get('/result', function (req, res) {
 });
 
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        // console.log(typeof(JSON.stringify(file.originalname)));
-        var dir = 'uploads/';
-        // var dir = 'uploads/' + JSON.stringify(file.originalname);
-        var fs = require('fs');
-        if (!fs.existsSync(dir)) {
-            //create dir
-            var command = "mkdir -p "+dir;
-            execSync(command);
-            // fs.mkdir(dir);
-            // Makedir(dir);
-        };
-        cb(null, dir);
-    },
-    filename: (req, file, cb) => {
-        console.log(file);
-        //こっちで名前入れてる
-        cb(null, Date.now() + path.extname(file.originalname));
-    }
-});
-const upload = multer({ storage: storage});
-app.post("/upload", function (req, res){
-    console.log("postリクエストがきたよ！");
-});
 
-// app.post('/upload', upload.single('image'), function (req, res, next) {
-//     console.log('post upload');
-//     console.log('req filepath:', req.file.path)
-//     // var req = JSON.stringify(req);
-//     // console.log('req.file:',req);
-//     // console.log(`req.body: ${JSON.stringify(req.file)}`);
-//     res.redirect("/");
-// });
 
 app.listen(8080)
 
-//function previewFile(file) {
-  // プレビュー画像を追加する要素
-//  const preview = document.getElementById('preview');
 
-  // FileReaderオブジェクトを作成
-//  const reader = new FileReader();
 
-  // URLとして読み込まれたときに実行する処理
-//  reader.onload = function (e) {
-//    const imageUrl = e.target.result; // URLはevent.target.resultで呼び出せる
-//    const img = document.createElement("img"); // img要素を作成
-//    img.src = imageUrl; // URLをimg要素にセット
-//    preview.appendChild(img); // #previewの中に追加
-//  }
+app.post('/download', (req, res) => {
+  // クライアントからの送信データを取得する
+  let body = req.body;
+  let parse = JSON.parse(JSON.stringify(body));
+  let parse_data = parse.data;
+  var data = parse_data.replace(/^data:image\/\w+;base64,/, "");
+  var buf = Buffer.from(data, 'base64');
+  fs.writeFile('./images/downloads/image.png', buf);
+});
 
-  // いざファイルをURLとして読み込む
-//  reader.readAsDataURL(file);
-//}
+app.listen(443);
 
-// <input>でファイルが選択されたときの処理
-//<no-ssr>
-//    <vue-tags-input
-//      v-model="tag"
-//      :tags="tags"
-//      @tags-changed="newTags => tags = newTags"
-//    />
-//const fileInput = document.getElementById('sample');
-//const handleFileSelect = () => {
-  //const files = fileInput.files;
-  //for (let i = 0; i < files.length; i++) {
-    //previewFile(files[i]);
-  //}
-//}
-//fileInput.addEventListener('change', handleFileSelect);
-//</no-ssr>
