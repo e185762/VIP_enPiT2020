@@ -27,7 +27,7 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 ctx.strokeStyle = 'rgb(255,0,0)';//初期描画線の色赤
-
+var erase = false;
 // Image オブジェクトを生成
 var img = new Image();
 img.src = "Tshirt.png";
@@ -66,7 +66,15 @@ canvas.addEventListener("mousemove",function(e) {
 
   //クリックしたら描画をOKの状態にする
 canvas.addEventListener("mousedown",function(e) {
-    ctx.strokeStyle = document.querySelector("#inputColor").value;
+    var color_val = document.querySelector("#inputColor").value;
+    //カラーパレット開きっぱなし状態で色を変える
+    if (color_val != ctx.strokeStyle) {
+      ctx.strokeStyle = document.querySelector("#inputColor").value;
+    } else {
+      if (erase) {
+        ctx.strokeStyle = 'rgb(255, 255, 255)';
+      }
+    }
     draw = true;
     mouseX1 = mouseX;
     mouseY1 = mouseY;
@@ -88,12 +96,14 @@ canvas.addEventListener("mouseup", function(e){
 
 //消しゴムボタンを起動する
 　$('#eraser').click(function(e) {
-  ctx.strokeStyle = 'rgb(255, 255, 255)';
+  // ctx.strokeStyle = 'rgb(255, 255, 255)';
+  erase = true;
     });
 
 //色を選択して変更する
 $('#inputColor').click(function(e) {
   ctx.strokeStyle = document.querySelector("#inputColor").value;
+  erase = false;
 });
 
 // 保存ボタンの処理
