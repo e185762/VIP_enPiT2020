@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser')
 var fs = require('fs');
 var app = express();
+app.use(express.json({ extended: true, limit: '10mb' }));
 app.use(bodyParser.urlencoded({
   extended: true
 }));
