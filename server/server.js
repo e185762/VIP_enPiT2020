@@ -35,20 +35,17 @@ app.use(express.static('images'));
 app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
-    res.sendfile('index.html');
+    //res.sendfile('index.ejs');
+    //console.log(cloth_import);
     //res.render("test",{file:cloth_import});
+    //res.redirect('http://google.com');
+    res.render("index");
 });
 
 app.get('/result', function (req, res) {
     //res.sendfile(cloth_import);
-    res.render("./views/test.ejs",{file,cloth_import});
+    res.render("index",{file:"/downloads/image.png"});
 });
-
-
-
-
-app.listen(8080)
-
 
 
 app.post('/download', (req, res) => {
@@ -60,8 +57,22 @@ app.post('/download', (req, res) => {
   var buf = Buffer.from(data, 'base64');
   fs.writeFile('./images/downloads/image.png', buf, function(err, result) {
     if(err) console.log('error', err);
-});
+  });
+  PythonShell.run('color.py', null, function (err, data) {
+      if (err) throw err;
+        console.log(data);
+        console.log('finished');
+        cloth_import=data[0];
+        cloth_result=data[5];
+        console.log(cloth_import);
+        console.log(cloth_result);
+    });
 
+
+  console.log("遷移するはずやねんな");
+  //res.render("index",{file:cloth_result});
+
+  // res.redirect(307,'/result');
 });
 
 app.listen(443);

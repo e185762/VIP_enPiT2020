@@ -222,15 +222,15 @@ def color_histogram(image,label):
 
   hist_g_R = cv2.calcHist([img],[2],None,[256],[0,256]) #imgのR(赤)のヒストグラムを計算
   plt.plot(hist_g_R,color = "r") #ヒストグラムをプロット
-  plt.show() #プロットを表示
+  #plt.show() #プロットを表示
 
   hist_g_G = cv2.calcHist([img],[1],None,[256],[0,256]) #imgのG(緑)のヒストグラムを計算
   plt.plot(hist_g_G,color = "g") #ヒストグラムをプロット
-  plt.show() #プロットを表示
+  #plt.show() #プロットを表示
 
   hist_g_B = cv2.calcHist([img],[0],None,[256],[0,256]) #imgのB(青)のヒストグラムを計算
   plt.plot(hist_g_B,color = "b") #ヒストグラムをプロット
-  plt.show() #プロットを表示
+  #plt.show() #プロットを表示
 
   return hist_g_R, hist_g_G, hist_g_B, label
 
@@ -292,20 +292,22 @@ def Similar_Search (hist_g_R, hist_g_G, hist_g_B, label):
           if i[0] == j:
               url.append(i[1])
 
-  print("/T_shirt/T_shirt_01.jpg")
-  print(url[0])
+  most = url[0]
+  print(most[5:])
   print(url[1])
 
   for image in url:
     img = mpimg.imread(image)
     plt.figure()
     plt.imshow(img)
-    plt.show()
+    #plt.show()
 
   con.close()
 
 def main():
-  image = "image/T_shirt/T_shirt_01.jpg" # もらってきた画像
+  image = "images/downloads/image.png"
+  print("/downloads/image.png")
+  #image = "image/T_shirt/T_shirt_01.jpg" # もらってきた画像
   label = "T_shirt" # 検索するラベル
 
   hist_R,hist_G,hist_B,label = color_histogram(image,label)
