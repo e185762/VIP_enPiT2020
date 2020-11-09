@@ -11,7 +11,6 @@ const multer  = require('multer');
 let execSync = require('child_process').execSync;
 const path = require("path");
 
-var cloth_import=[];
 var cloth_result=[];
 
 // PythonShell.run('color.py', null, function (err, data) {
@@ -44,7 +43,9 @@ app.get('/', function (req, res) {
 
 app.get('/result', function (req, res) {
     //res.sendfile(cloth_import);
-    res.render("index",{file:"/downloads/image.png"});
+    console.log("きとる");
+    console.log(cloth_result);
+    res.render("index",{file:cloth_result});
 });
 
 
@@ -59,12 +60,11 @@ app.post('/download', (req, res) => {
     if(err) console.log('error', err);
   });
   PythonShell.run('color.py', null, function (err, data) {
-      if (err) throw err;
         console.log(data);
         console.log('finished');
-        cloth_import=data[0];
-        cloth_result=data[5];
-        console.log(cloth_import);
+        cloth_result=data[1];
+        console.log(cloth_result);
+        cloth_result=cloth_result.substring(5);
         console.log(cloth_result);
     });
 
