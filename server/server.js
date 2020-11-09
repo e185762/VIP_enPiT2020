@@ -51,25 +51,41 @@ app.get('/result', function (req, res) {
 
 app.post('/download', (req, res) => {
   // クライアントからの送信データを取得する
-  let body = req.body;
-  let parse = JSON.parse(JSON.stringify(body));
-  let parse_data = parse.data;
-  var data = parse_data.replace(/^data:image\/\w+;base64,/, "");
-  var buf = Buffer.from(data, 'base64');
-  fs.writeFile('./images/downloads/image.png', buf, function(err, result) {
-    if(err) console.log('error', err);
-  });
-  PythonShell.run('color.py', null, function (err, data) {
-        console.log(data);
-        console.log('finished');
-        cloth_result=data[1];
-        console.log(cloth_result);
-        cloth_result=cloth_result.substring(5);
-        console.log(cloth_result);
-    });
+    var a = function() {
+        return new Promise(function(resolve, reject) {
+            setTimeout(function() {
+                let body = req.body;
+                let parse = JSON.parse(JSON.stringify(body));
+                let parse_data = parse.data;
+                var data = parse_data.replace(/^data:image\/\w+;base64,/, "");
+                var buf = Buffer.from(data, 'base64');
+                fs.writeFile('./images/downloads/image.png', buf, function(err, result) {
+                    if(err) console.log('error', err);
+                });
+                resolve();
+            }, 1000);
+        });
+    };
+    var b = function() {
+        return new Promise(function(resolve, reject) {
+            setTimeout(function() {
+                PythonShell.run('color.py', null, function (err, data) {
+                    console.log(data);
+                    console.log('finished');
+                    cloth_result=data[1];
+                    console.log(cloth_result);
+                    cloth_result=cloth_result.substring(5);
+                    res.locals.file = cloth_result
+                    console.log(cloth_result);
+                });
+                resolve();
+            }, 1000);
+        });
+    };
 
+    a().then(b);
 
-  console.log("遷移するはずやねんな");
+  //console.log("遷移するはずやねんな");
   //res.render("index",{file:cloth_result});
 
   // res.redirect(307,'/result');

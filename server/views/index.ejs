@@ -111,6 +111,12 @@ $('#buttonSave').click(function(e) {
     // サーバへ送信
     sendServer(base64);
     document.getElementById("buttonSave").href = base64;
+<!--     while (true){ -->
+<!--         if (locals.file){ -->
+<!--             location.replace("http://localhost:443/result"); -->
+<!--             break; -->
+<!--             } -->
+<!--         } -->
     location.replace("http://localhost:443/result");
   }
 

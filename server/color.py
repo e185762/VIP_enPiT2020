@@ -56,12 +56,6 @@ def color_histogram(image,label):
     
     fname = image #1つ目の画像ファイル名
 
-    im = Image.open(image)
-
-     im.show()
-
-
-
     img = cv2.imread(fname) #画つ目の像を読み出しオブジェクトimg_1に代入
     hsv_image = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
@@ -110,11 +104,11 @@ def Similar_Search (H_histr, S_histr, V_histr, label):
     cur.execute(sql)
     for row in cur:
         if row[1] == label:
-            H_hist = cv2.compareHist(H_histr, row[3], 0) #ヒストグラムの比較。比較methodにcv2.HISTCMP_CORRELを使用
+            H_hist = cv2.compareHist(H_histr, row[3], 1) #ヒストグラムの比較。比較methodにcv2.HISTCMP_CORRELを使用
             #         print(comp_hist_R) #類似度を表示
-            S_hist = cv2.compareHist(S_histr, row[4], 0)
+            S_hist = cv2.compareHist(S_histr, row[4], 1)
 #             #         print(comp_hist_G)
-            V_hist = cv2.compareHist(V_histr, row[5], 0)
+            V_hist = cv2.compareHist(V_histr, row[5], 1)
 #             #         print(comp_hist_B)
 
             comp_hist_sum = H_hist + S_hist + V_hist
