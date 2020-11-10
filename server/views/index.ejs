@@ -8,11 +8,6 @@
  </head>
  <body>
 
-   　<% if (locals.file) { %>
-            <center><h1 class="text">検索結果はこちらです</h1><br><center>
-            <div><img src=<%= file %>></div>
-            <button id="return" onclick="http://localhost:443/analysis/">検索画面にもどる</button>
-     <% } else {%>
 	 <center><h1 class="text">ようこそ！</h1><br>
 		 <p class="text">このサイトは自分のデザインから類似した服を見つけることができます</p><br>
 	<h2 class="text">まずは自分のイメージする洋服を描いてみよう</center></h2>
@@ -25,8 +20,6 @@
       <button id="clear">全削除</button>
       <a id="buttonSave" href="#" download="canvas.png">保存する</a>
       </div>
-      <% const print = "出力はされません" %>
-      <% } %>
 
 
       
@@ -115,12 +108,12 @@ $('#buttonSave').click(function(e) {
     // サーバへ送信
     sendServer(base64);
     document.getElementById("buttonSave").href = base64;
-<!--     while (true){ -->
-<!--         if (locals.file){ -->
-<!--             location.replace("http://localhost:443/result"); -->
-<!--             break; -->
-<!--             } -->
-<!--         } -->
+// <!--     while (true){ -->
+// <!--         if (locals.file){ -->
+// <!--             location.replace("http://localhost:443/result"); -->
+// <!--             break; -->
+// <!--             } -->
+// <!--         } -->
     location.replace("http://localhost:443/analysis");
   }
 

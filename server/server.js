@@ -70,7 +70,7 @@ app.get('/result', function (req, res) {
     //res.sendfile(cloth_import);
     console.log("きとる");
     console.log(cloth_result);
-    res.render("index",{file:cloth_result});
+    res.render("result",{file:cloth_result});
 });
 
 
