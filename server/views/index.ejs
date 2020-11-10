@@ -8,6 +8,11 @@
  </head>
  <body>
 
+   　<% if (locals.file) { %>
+            <center><h1 class="text">検索結果はこちらです</h1><br><center>
+            <div><img src=<%= file %>></div>
+            <button id="return" onclick="http://localhost:443/analysis/">検索画面にもどる</button>
+     <% } else {%>
 	 <center><h1 class="text">ようこそ！</h1><br>
 		 <p class="text">このサイトは自分のデザインから類似した服を見つけることができます</p><br>
 	<h2 class="text">まずは自分のイメージする洋服を描いてみよう</center></h2>
@@ -21,9 +26,8 @@
       <a id="buttonSave" href="#" download="canvas.png">保存する</a>
       </div>
       <% const print = "出力はされません" %>
-      <% if (locals.file) { %>
-        <div><img src=<%= file %>></div>
       <% } %>
+
 
       
 <script type="text/javascript">
@@ -134,6 +138,7 @@ async function sendServer(param) {
       })
     }).then((response) => response.json());
 }
+
 
 
 </script>
