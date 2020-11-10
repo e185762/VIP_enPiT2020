@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser')
 var fs = require('fs');
 var app = express();
+const router = require('express-promise-router')();
 
 var {PythonShell} = require('python-shell');
 
@@ -11,7 +12,31 @@ const multer  = require('multer');
 let execSync = require('child_process').execSync;
 const path = require("path");
 
-var cloth_result=[];
+var cloth_result=null;
+
+const sleep = (millis) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            PythonShell.run('color.py', null, function (err, data) {
+                console.log(data);
+                console.log('finished');
+                cloth_result=data[1];
+                console.log(cloth_result);
+                cloth_result=cloth_result.substring(5);
+                console.log(cloth_result);
+            });
+            resolve()
+        }, millis);
+    });
+};
+const redirects = (millis,res) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            res.redirect(307,'/result');
+            resolve()
+        }, millis);
+    });
+};
 
 // PythonShell.run('color.py', null, function (err, data) {
 //   if (err) throw err;
@@ -49,47 +74,50 @@ app.get('/result', function (req, res) {
 });
 
 
-app.post('/download', (req, res) => {
+app.post('/download', async (req, res) => {
   // クライアントからの送信データを取得する
-    var a = function() {
-        return new Promise(function(resolve, reject) {
-            setTimeout(function() {
-                let body = req.body;
-                let parse = JSON.parse(JSON.stringify(body));
-                let parse_data = parse.data;
-                var data = parse_data.replace(/^data:image\/\w+;base64,/, "");
-                var buf = Buffer.from(data, 'base64');
-                fs.writeFile('./images/downloads/image.png', buf, function(err, result) {
-                    if(err) console.log('error', err);
-                });
-                resolve();
-            }, 1000);
-        });
-    };
-    var b = function() {
-        return new Promise(function(resolve, reject) {
-            setTimeout(function() {
-                PythonShell.run('color.py', null, function (err, data) {
-                    console.log(data);
-                    console.log('finished');
-                    cloth_result=data[1];
-                    console.log(cloth_result);
-                    cloth_result=cloth_result.substring(5);
-                    res.locals.file = cloth_result
-                    console.log(cloth_result);
-                });
-                resolve();
-            }, 1000);
-        });
-    };
+    let body = req.body;
+    let parse = JSON.parse(JSON.stringify(body));
+    let parse_data = parse.data;
+    var data = parse_data.replace(/^data:image\/\w+;base64,/, "");
+    var buf = Buffer.from(data, 'base64');
+    fs.writeFile('./images/downloads/image.png', buf, function(err, result) {
+        if(err) console.log('error', err);
+    });
 
-    a().then(b);
+    // PythonShell.run('color.py', null, function (err, data) {
+    //     console.log(data);
+    //     console.log('finished');
+    //     cloth_result=data[1];
+    //     console.log(cloth_result);
+    //     cloth_result=cloth_result.substring(5);
+    //     console.log(cloth_result);
+    // });
+
+
 
   //console.log("遷移するはずやねんな");
   //res.render("index",{file:cloth_result});
 
   // res.redirect(307,'/result');
 });
+
+app.get('/analysis', (req, res, next) => {
+    awaitFunc(res).then(() => {awaitRedirect(res)});
+    //awaitFunc(res)
+});
+
+async function awaitFunc(res) {
+    console.log(1);
+    await sleep(1000); // Promise が返ってくるまで awaitで 処理停止
+    console.log(2); // 約3秒経過に表示
+}
+async function awaitRedirect(res) {
+    console.log(3);
+    await redirects(2000,res); // Promise が返ってくるまで awaitで 処理停止
+    console.log(4); // 約3秒経過に表示
+}
+
 
 app.listen(443);
 
