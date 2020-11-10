@@ -16,9 +16,14 @@
   </center>
       <div>
       <input id="inputColor" type="color" value="#ff0000">
-      <button id="eraser">消しゴム</button>
-      <button id="clear">全削除</button>
-      <a id="buttonSave" href="#" download="canvas.png">保存する</a>
+      <button id="pen-s">細</button>
+      <button id="pen-m">中</button>
+      <button id="pen-l">太</button>
+      <center>
+        <button id="eraser">消しゴム</button>
+        <button id="clear">全削除</button>
+        <button id="buttonSave">保存する</button>
+      </center>
       </div>
 
 
@@ -46,12 +51,10 @@ var draw = false;
 //マウスの座標を取得する
 canvas.addEventListener("mousemove",function(e) {
   var rect = e.target.getBoundingClientRect();
-  ctx.lineWidth = 5;
   ctx.globalAlpha = 1;
 
   mouseX = e.clientX - rect.left;
   mouseY = e.clientY - rect.top;
-
 
   //クリック状態なら描画をする
   if(draw === true) {
@@ -79,12 +82,23 @@ canvas.addEventListener("mouseup", function(e){
   draw = false;
 });
 
+//ラインの太さ
+  $('#pen-s').click(function(e) {
+    ctx.lineWidth= 1;
+  });
+  $('#pen-m').click(function(e) {
+    ctx.lineWidth = 5;
+  });
+  $('#pen-l').click(function(e) {
+    ctx.lineWidth = 10;
+  });
+
 //消去ボタンを起動する
  $('#clear').click(function(e) {
  		if(!confirm('本当に消去しますか？')) return;
         e.preventDefault();
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(img, 0, 0, 600, 600);
+    ctx.drawImage(img, -10, 0, 660, 660);
   });
 
 //消しゴムボタンを起動する
@@ -102,13 +116,17 @@ $('#buttonSave').click(function(e) {
   const SAVE_URL = 'http://localhost:443/download';
   var canvas = document.getElementById('canvas');
   var base64 = canvas.toDataURL("image/png");
+  let link = document.createElement("a");
+  link.href = canvas.toDataURL("image/png");
+  link.download = "canvas.png";
+  link.click();
   // console.log(base64);
   // 送信情報の設定
   if (base64) {
     // サーバへ送信
     sendServer(base64);
     document.getElementById("buttonSave").href = base64;
-    location.replace("http://13.113.194.238:443/analysis");
+    location.replace("http://localhost:443/analysis");
   }
 
 });
