@@ -103,7 +103,11 @@ canvas.addEventListener("mouseup", function(e){
 
 //消しゴムボタンを起動する
 　$('#eraser').click(function(e) {
-  ctx.strokeStyle = 'rgb(255, 255, 255)';
+  //ctx.strokeStyle = 'rgb(255, 255, 255)';
+  ctx.globalCompositeOperation = 'destination-out';
+    $('#inputColor').click(function(e) {  
+      ctx.globalCompositeOperation = 'source-over';
+    });
     });
 
 //色を選択して変更する
