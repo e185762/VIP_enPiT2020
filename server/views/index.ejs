@@ -40,13 +40,15 @@ img.src = "Tshirt.png";
 
 // 画像読み込み終了してから描画
 img.onload = function(){
-    ctx.drawImage(img, -10, 0, 660, 660);
+    ctx.drawImage(img, -10, 0, 659, 659);
 }
 
 
 //マウスを操作する
 var mouse = {x:0,y:0,x1:0,y1:0,color:"black"};
 var draw = false;
+
+var erase = false;
 
 //マウスの座標を取得する
 canvas.addEventListener("mousemove",function(e) {
@@ -56,8 +58,13 @@ canvas.addEventListener("mousemove",function(e) {
   mouseX = e.clientX - rect.left;
   mouseY = e.clientY - rect.top;
 
-  //クリック状態なら描画をする
-  if(draw === true) {
+//クリック状態なら描画をする
+if(draw === true) {
+  if (erase) {
+    ctx.globalCompositeOperation = 'destination-out';
+    } else {
+      ctx.globalCompositeOperation = 'source-over';
+    }
     ctx.beginPath();
     ctx.moveTo(mouseX1,mouseY1);
     ctx.lineTo(mouseX,mouseY);
@@ -80,6 +87,12 @@ canvas.addEventListener("mousedown",function(e) {
 //クリックを離したら、描画を終了する
 canvas.addEventListener("mouseup", function(e){
   draw = false;
+  ctx.globalCompositeOperation = 'source-over';
+  var img2 = new Image();
+  img2.src = "Tshirt-shape.png";
+  img2.onload = function(){
+    ctx.drawImage(img2, -10, 0, 659, 659);
+}
 });
 
 //ラインの太さ
@@ -98,20 +111,18 @@ canvas.addEventListener("mouseup", function(e){
  		if(!confirm('本当に消去しますか？')) return;
         e.preventDefault();
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(img, -10, 0, 660, 660);
+    ctx.drawImage(img, -10, 0, 659, 659);
   });
 
 //消しゴムボタンを起動する
 　$('#eraser').click(function(e) {
-  //ctx.strokeStyle = 'rgb(255, 255, 255)';
+  erase = true;
   ctx.globalCompositeOperation = 'destination-out';
-    $('#inputColor').click(function(e) {  
-      ctx.globalCompositeOperation = 'source-over';
-    });
-    });
+  });
 
 //色を選択して変更する
 $('#inputColor').click(function(e) {
+  erase = false;
   ctx.strokeStyle = document.querySelector("#inputColor").value;
 });
 
@@ -147,7 +158,6 @@ async function sendServer(param) {
       })
     }).then((response) => response.json());
 }
-
 
 
 </script>
