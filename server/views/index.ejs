@@ -117,7 +117,7 @@ $('#inputColor').click(function(e) {
 
 // 保存ボタンの処理
 $('#buttonSave').click(function(e) {
-  const SAVE_URL = 'http://localhost:443/download';
+  const SAVE_URL = 'http://13.113.194.238:443/download';
   var canvas = document.getElementById('canvas');
   var base64 = canvas.toDataURL("image/png");
   let link = document.createElement("a");
@@ -130,7 +130,7 @@ $('#buttonSave').click(function(e) {
     // サーバへ送信
     sendServer(base64);
     document.getElementById("buttonSave").href = base64;
-    location.replace("http://localhost:443/analysis");
+    location.replace("http://13.113.194.238:443/analysis");
   }
 
 });

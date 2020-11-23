@@ -1,4 +1,8 @@
-from PIL import Image
+# coding: UTF-8
+import sys
+sys.path.append('/home/ec2-user/.local/lib/python3.7/site-packages/')
+import cv2
+
 def access_db ():
   import sqlite3
   import numpy as np
@@ -29,66 +33,23 @@ def access_db ():
   return con, cur
 
 def color_histogram(image,label):
-    """
-    画像のヒストグラムのデータ量を取得する
-
-    Parameters
-    ----------
-        image : str
-    検索したい画像のurl (なのかな？今回はlocalにある画像を使用しているよ)
-        label : str
-    検索したい画像のlabel　(ここではなんも処理してないから変えたほうがいいかも)
-        Returns
-    -------
-        hist_g_R : numpy.array
-    赤色のヒストグラムのデータ量
-        hist_g_G : numpy.array
-    緑色のヒストグラムのデータ量
-        hist_g_B : numpy.array
-    青色のヒストグラムのデータ量
-        label : str
-    検索したい画像のlabel
-    """
-
-
-    import cv2  #OpenCVのインポート
-    import matplotlib.pyplot as plt #matplotlib.pyplotのインポート
+    import matplotlib.pyplot as plt
     
-    fname = image #1つ目の画像ファイル名
+    fname = image
 
-    img = cv2.imread(fname) #画つ目の像を読み出しオブジェクトimg_1に代入
+    img = cv2.imread(fname) 
     hsv_image = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
     H_hist = cv2.calcHist([hsv_image],[2],None,[256],[0,256]) 
-#     plt.plot(hist_g_R,color = "r") #ヒストグラムをプロット
-    #   plt.show() #プロットを表示
-
     S_hist = cv2.calcHist([hsv_image],[1],None,[256],[0,256]) 
-#     plt.plot(hist_g_G,color = "g") #ヒストグラムをプロット
-    #   plt.show() #プロットを表示
-
     V_hist = cv2.calcHist([hsv_image],[0],None,[256],[0,256])
-#     plt.plot(hist_g_B,color = "b") #ヒストグラムをプロット
-    plt.show() #プロットを表示
+    plt.show()
 
     return H_hist, S_hist, V_hist, label
 
 def Similar_Search (H_histr, S_histr, V_histr, label):
-    """
-        似ている画像を表示する
-
-        Parameters
-        ----------
-            hist_g_R : numpy.array
-        対象画像の赤色ヒストグラムのデータ量
-            hist_g_G : numpy.array
-        対象画像の緑色ヒストグラムのデータ量
-            hist_g_B : numpy.array
-        対象画像の赤色ヒストグラムのデータ量
-            label : 対象データのlabel
-    """
-    import cv2  #OpenCVのインポート
-    import matplotlib.pyplot as plt #matplotlib.pyplotのインポート
+    import cv2
+    import matplotlib.pyplot as plt
     import matplotlib.image as mpimg
 
     con,cur = access_db()
@@ -99,13 +60,11 @@ def Similar_Search (H_histr, S_histr, V_histr, label):
     comp_choce = []
 
     n = 0
-
     sql = "select * from IMAGE"
     cur.execute(sql)
     for row in cur:
         if row[1] == label:
-            H_hist = cv2.compareHist(H_histr, row[3], 1) #ヒストグラムの比較。比較methodにcv2.HISTCMP_CORRELを使用
-            #         print(comp_hist_R) #類似度を表示
+            H_hist = cv2.compareHist(H_histr, row[3], 1) 
             S_hist = cv2.compareHist(S_histr, row[4], 1)
 #             #         print(comp_hist_G)
             V_hist = cv2.compareHist(V_histr, row[5], 1)
@@ -142,8 +101,8 @@ def Similar_Search (H_histr, S_histr, V_histr, label):
     con.close()
     
 def main():
-  image = "images/downloads/image.png" # もらってきた画像
-  label = "T_shirt" # 検索するラベル
+  image = "images/downloads/image.png"
+  label = "T_shirt" 
 
   H_hist, S_hist, V_hist, label = color_histogram(image,label)
   Similar_Search(H_hist, S_hist, V_hist, label)

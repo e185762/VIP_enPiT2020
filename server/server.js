@@ -14,11 +14,20 @@ const path = require("path");
 
 var cloth_result=null;
 
+var options = {
+     mode: 'text',
+     pythonPath: '/usr/local/bin/python',
+     pythonOptions: ['-u'],
+     // make sure you use an absolute path for scriptPath
+     scriptPath: '/home/ec2-user/VIP_enPiT2020/server/'
+    };
+
 const sleep = (millis) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      PythonShell.run('color.py', null, function (err, data) {
-        console.log(data);
+      PythonShell.run('color.py', options, function (err, data) {
+        console.log(err);
+	console.log(data);
         console.log('finished');
         cloth_result=data[1];
         console.log(cloth_result);
