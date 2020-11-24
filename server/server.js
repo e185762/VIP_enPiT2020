@@ -1,5 +1,5 @@
 var express = require('express');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 var fs = require('fs');
 var app = express();
 const router = require('express-promise-router')();
@@ -7,6 +7,7 @@ const router = require('express-promise-router')();
 var {PythonShell} = require('python-shell');
 
 app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded({ limit:'100mb',extended: true }));
 
 const multer  = require('multer');
 let execSync = require('child_process').execSync;
