@@ -81,7 +81,7 @@ app.post('/download', async (req, res) => {
   let parse_data = parse.data;
   var data = parse_data.replace(/^data:image\/\w+;base64,/, "");
   var buf = Buffer.from(data, 'base64');
-  fs.writeFile('./images/downloads/image.png', buf, function(err, result) {
+  fs.writeFile('./images/downloads/canvas.png', buf, function(err, result) {
     if(err) console.log('error', err);
   });
 

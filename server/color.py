@@ -101,7 +101,7 @@ def Similar_Search (H_histr, S_histr, V_histr, label):
     con.close()
     
 def main():
-  image = "images/downloads/image.png"
+  image = "images/downloads/canvas.png"
   label = "T_shirt" 
 
   H_hist, S_hist, V_hist, label = color_histogram(image,label)
