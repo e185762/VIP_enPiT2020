@@ -23,21 +23,6 @@
        0px -2px 1px #003366;        /* 文字の影 */
 }
 
-.button {
-  display      : inline-block;
-  border-radius: 50%;                  /* 角丸 */
-  box-shadow   : 3px 3px 3px #0dd85b;  /* 影の設定 */
-  cursor       : pointer;              /* カーソル形状 */
-  transition   : .3s;
-  background-color: white;
-
-  width: 25px;
-  height: 25px;
-}
-.button:hover {
-  box-shadow   : none;                 /* 影の設定 */
-  
-}
 
 body {
 	background-image: url("home.jpg");
@@ -55,33 +40,43 @@ canvas {
   div{
   text-align:center;
   }
-  button.warmwarm-color{
-    position: relative;
-    left: 80px;
-    top: 150px;
+
+  input.inputColor{
+    position: absolute; /*ボタンの配置*/
+    right: 135px;
+    top: 400px;
   }
-  button.eraser{
-    position: relative;
-    left: 80px;
-    top: 120px;
+  button.warm-color{
+    position: absolute; /*ボタンの配置*/
+    right: 115px;
+    top: 430px;
   }
+  button.cold-color{
+    position: absolute; /*ボタンの配置*/
+    right: 120px;
+    top: 460px;
+  }
+
   button.pen-s{
     display: inline-block;
     text-decoration: none;
     background: #FFF;
     color: #668ad8;
+    box-shadow   : 3px 3px 3px #668ad8;
     width: 17px;
     height: 17px;
-    line-height: 7px;
-    border-radius: 50%;
-    position: relative;
-    left: 20px;
-    top: 122px;
-    display: flex;
+    line-height: 7px; /*テキストの大きさ*/
+    border-radius: 50%;  /* 角丸 */
+
+    position: absolute;  /* ボタンの配置*/
+    right: 170px;
+    top: 490px;
+
+    display: flex; /*firebox?の設定*/
     justify-content: center;
     align-items: center;
     text-align:center;
-    display: grid;
+    display: grid; /*その他の設定*/
     place-items: center;
     overflow: hidden;
     transition: .4s;
@@ -95,18 +90,21 @@ canvas {
     text-decoration: none;
     background: #FFF;
     color: #668ad8;
+    box-shadow   : 3px 3px 3px #668ad8;
     width: 19px;
     height: 19px;
     line-height: 7px;
     border-radius: 50%;
-    position: relative;
-    left: 40px;
-    top: 103px;
-    display: flex;
+
+    position: absolute; /*ボタンの配置*/
+    right: 145px;
+    top: 489px;
+
+    display: flex; /*firebox?の設定*/
     justify-content: center;
     align-items: center;
     text-align:center;
-    display: grid;
+    display: grid; /*その他の設定*/
     place-items: center;
     overflow: hidden;
     transition: .4s;
@@ -120,18 +118,21 @@ canvas {
     text-decoration: none;
     background: #FFF;
     color: #668ad8;
+    box-shadow   : 3px 3px 3px #668ad8;
     width: 21px;
     height: 21px;
     line-height: 7px;
     border-radius: 50%;
-    position: relative;
-    left: 60px;
-    top: 83px;
-    display: flex;
+
+    position: absolute; /*ボタンの配置*/
+    right: 117px;
+    top: 488px;
+
+    display: flex; /*firebox?の設定*/
     justify-content: center;
     align-items: center;
     text-align:center;
-    display: grid;
+    display: grid; /*その他の設定*/
     place-items: center;
     overflow: hidden;
     transition: .4s;
@@ -140,6 +141,70 @@ canvas {
     background: #668ad8;
   }
 
+  .buttonfill {
+    display      : inline-block;
+    border-radius: 50%;                  /* 角丸 */
+    box-shadow   : 3px 3px 3px #0dd85b;  /* 影の設定 */
+    cursor       : pointer;              /* カーソル形状 */
+    transition   : .3s;
+    background-color: white;
+  
+    width: 25px;
+    height: 25px;
+  
+    position: absolute; /* ボタンの配置*/
+    right: 160px;
+    top: 515px;
+  }
+  .buttonfill:hover {
+    box-shadow   : none;                 /* 影の設定 */
+    
+  }
+  
+  .buttonerase {
+    display      : inline-block;
+    border-radius: 50%;                  /* 角丸 */
+    box-shadow   : 3px 3px 3px #0dd85b;  /* 影の設定 */
+    cursor       : pointer;              /* カーソル形状 */
+    transition   : .3s;
+    background-color: white;
+  
+    width: 25px;
+    height: 25px;
+  
+    position: absolute; /*ボタンの配置*/
+      right: 125px;
+      top: 515px;
+  }
+  .buttonerase:hover {
+    box-shadow   : none;                 /* 影の設定 */
+    
+  }
+
+  .fillColorSleevesL{
+    position: absolute; /*ボタンの配置*/
+    right: 100px;
+    top: 540px;
+  }
+  
+  .fillColorSleevesR{
+    position: absolute; /*ボタンの配置*/
+    right: 100px;
+    top: 560px;
+  }
+
+  .clear{
+    position: absolute; /*ボタンの配置*/
+    right: 130px;
+    top: 580px;
+  }
+
+  .buttonSave{
+    position: absolute; /*ボタンの配置*/
+    right: 125px;
+    top: 600px;
+  }
+  
 #colorpicker:before {
     position: absolute;
     top: -7px;
