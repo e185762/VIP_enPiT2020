@@ -36,11 +36,96 @@ canvas {
   border: solid 5px brown;
 }
 
-button{
-  display:inline-block;/*コレ*/
+/*button{
+  display:inline-block;
   }
+  */
   div{
   text-align:center;
+  }
+  button.warmwarm-color{
+    position: relative;
+    left: 80px;
+    top: 150px;
+  }
+  button.eraser{
+    position: relative;
+    left: 80px;
+    top: 120px;
+  }
+  button.pen-s{
+    display: inline-block;
+    text-decoration: none;
+    background: #FFF;
+    color: #668ad8;
+    width: 17px;
+    height: 17px;
+    line-height: 7px;
+    border-radius: 50%;
+    position: relative;
+    left: 20px;
+    top: 122px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    transition: .4s;
+  }
+  button.pen-s:hover {
+    background: #668ad8;
+  }
+
+  button.pen-m{
+    display: inline-block;
+    text-decoration: none;
+    background: #FFF;
+    color: #668ad8;
+    width: 19px;
+    height: 19px;
+    line-height: 7px;
+    border-radius: 50%;
+    position: relative;
+    left: 40px;
+    top: 103px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    transition: .4s;
+  }
+  button.pen-m:hover {
+    background: #668ad8;
+  }
+
+  button.pen-l{
+    display: inline-block;
+    text-decoration: none;
+    background: #FFF;
+    color: #668ad8;
+    width: 21px;
+    height: 21px;
+    line-height: 7px;
+    border-radius: 50%;
+    position: relative;
+    left: 60px;
+    top: 83px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    transition: .4s;
+  }
+  button.pen-l:hover {
+    background: #668ad8;
   }
 
   #colorpicker:before {
