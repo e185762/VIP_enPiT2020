@@ -97,12 +97,12 @@ app.get('/analysis', (req, res, next) => {
 
 async function awaitFunc(res) {
   console.log(1);
-  await sleep(1000); // Promise が返ってくるまで awaitで 処理停止
+  await sleep(2000); // Promise が返ってくるまで awaitで 処理停止
   console.log(2); // 約3秒経過に表示
 }
 async function awaitRedirect(res) {
   console.log(3);
-  await redirects(2000,res); // Promise が返ってくるまで awaitで 処理停止
+  await redirects(3000,res); // Promise が返ってくるまで awaitで 処理停止
   console.log(4); // 約3秒経過に表示
 }
 
