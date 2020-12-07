@@ -274,7 +274,7 @@ function prev_next_draw(src) {
     var draw_img = new Image();
     draw_img.src = src;
     draw_img.onload = function() {
-      ctx.drawImage(draw_img, -10, 0, 659, 659);
+      ctx.drawImage(draw_img, 0, 0, 640, 640);
     }
 }
 // 保存ボタンの処理
