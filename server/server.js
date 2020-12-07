@@ -14,6 +14,8 @@ let execSync = require('child_process').execSync;
 const path = require("path");
 
 var cloth_result=null;
+var cloth_url=null;
+
 
 /* DO NOT USE LOCALHOST */
 // var options = {
@@ -35,6 +37,7 @@ const sleep = (millis) => {
         console.log(cloth_result);
         cloth_result=cloth_result.substring(5);
         console.log(cloth_result);
+        cloth_url = data[2]
       });
       resolve()
     }, millis);
@@ -71,7 +74,7 @@ app.get('/result', function (req, res) {
   //res.sendfile(cloth_import);
   console.log("きとる");
   console.log(cloth_result);
-  res.render("result",{file:cloth_result});
+  res.render("result",{file:cloth_result, url:cloth_url});
 });
 
 
@@ -85,22 +88,6 @@ app.post('/download', async (req, res) => {
   fs.writeFile('./images/downloads/image.png', buf, function(err, result) {
     if(err) console.log('error', err);
   });
-
-  // PythonShell.run('color.py', null, function (err, data) {
-  //     console.log(data);
-  //     console.log('finished');
-  //     cloth_result=data[1];
-  //     console.log(cloth_result);
-  //     cloth_result=cloth_result.substring(5);
-  //     console.log(cloth_result);
-  // });
-
-
-
-  //console.log("遷移するはずやねんな");
-  //res.render("index",{file:cloth_result});
-
-  // res.redirect(307,'/result');
 });
 
 app.get('/analysis', (req, res, next) => {

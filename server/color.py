@@ -144,7 +144,7 @@ def color_search(IMAGE):
 
     #画像の表示
     plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)) # OpenCV は色がGBR順なのでRGB順に並べ替える
-    plt.show()
+#     plt.show()
 
     RGB = []
     color_list = []
@@ -194,9 +194,11 @@ def Similar_Search(color_list):
         img = cv2.imread(image) #画つ目の像を読み出しオブジェクトimg_1に代入
         #画像の表示
         plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)) # OpenCV は色がGBR順なのでRGB順に並べ替える
-        plt.show()
+#         plt.show()
 
     print(URL_LIST)
+    print(URL_LIST[0][2])
+    print(URL_LIST[0][1])
 
 IMAGE = "images/downloads/image.png"
 color_hist = color_search(IMAGE)
