@@ -22,6 +22,7 @@
     <canvas id="canvas" width="640px" height="640px">残念ながらHTML5に対応していません
   </center>
       <p><input id="inputColor" type="color" value="#ff0000"></p>
+<<<<<<< HEAD
       <p><center><button id="eraser">消しゴム</button></center></p>
       <p><center><button id="clear">全削除</button></center></p>
        <form  method = "post">
@@ -29,11 +30,27 @@
     </form>
 
 
+=======
+      <p><button id="eraser">消しゴム</button></p>
+      <p><button id="clear">全削除</button></p>
+      <p><a id="buttonSave" href="#" download="canvas.png">保存する</a></p>
+      
+>>>>>>> master
 
 <script type="text/javascript">
+//const fs = require('fs');
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 // ctx.strokeStyle = 'rgb(112,128,144)'; //枠線の色は青
+
+// Image オブジェクトを生成
+var img = new Image();
+img.src = "Tshirt.png";
+
+// 画像読み込み終了してから描画
+img.onload = function(){
+    ctx.drawImage(img, 0, 0, 600, 600);
+}
 
 
 //マウスを操作する
@@ -98,7 +115,37 @@ $('#inputColor').click(function(e) {
   var paintColor = document.querySelector("#inputColor").value;
     ctx.strokeStyle = paintColor
     });
+
+// 保存ボタンの処理
+$('#buttonSave').click(function(e) {
+  const SAVE_URL = 'http://localhost:443/download';
+  var canvas = document.getElementById('canvas');
+  var base64 = canvas.toDataURL("image/png");
+  console.log(base64);
+  // 送信情報の設定
+  if (base64) {
+    // サーバへ送信
+    sendServer(base64);
+    document.getElementById("buttonSave").href = base64;
+  }
+});
+
+async function sendServer(param) {
+  
+  return fetch('./download', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      body: JSON.stringify({
+        data: param
+      })
+    }).then((response) => response.json());
+}
+
+
 </script>
+<<<<<<< HEAD
 
 <!-- <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
@@ -119,4 +166,7 @@ $('#inputColor').click(function(e) {
        }
    </script> -->
  </body>
+=======
+</body>
+>>>>>>> master
 </html>
