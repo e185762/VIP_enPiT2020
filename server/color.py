@@ -3,6 +3,8 @@ import numpy as np
 import io
 import cv2
 import matplotlib.pyplot as plt
+import sys
+sys.path.append('/home/ec2-user/.local/lib/python3.7/site-packages/')
 
 def access_db ():
     sqlite3.register_adapter(list, lambda l: ';'.join([str(i) for i in l]))
@@ -199,7 +201,7 @@ def Similar_Search(color_list):
     print(URL_LIST[0][2])
     print(URL_LIST[0][1])
 
-IMAGE = "images/downloads/image.png"
+IMAGE = "images/downloads/canvas.png"
 color_hist = color_search(IMAGE)
 Similar_Search(color_hist)
 
