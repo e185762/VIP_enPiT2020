@@ -14,19 +14,22 @@ let execSync = require('child_process').execSync;
 const path = require("path");
 
 var cloth_result=null;
+var cloth_url=null;
 
-var options = {
-     mode: 'text',
-     pythonPath: '/usr/local/bin/python',
-     pythonOptions: ['-u'],
-     // make sure you use an absolute path for scriptPath
-     scriptPath: '/home/ec2-user/VIP_enPiT2020/server/'
-    };
+
+/* DO NOT USE LOCALHOST */
+// var options = {
+//      mode: 'text',
+//      pythonPath: '/usr/local/bin/python',
+//      pythonOptions: ['-u'],
+//      // make sure you use an absolute path for scriptPath
+//      scriptPath: '/home/ec2-user/VIP_enPiT2020/server/'
+//     };
 
 const sleep = (millis) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      PythonShell.run('color.py', options, function (err, data) {
+      PythonShell.run('color.py', null, function (err, data) {
         console.log(err);
 	console.log(data);
         console.log('finished');
@@ -34,6 +37,7 @@ const sleep = (millis) => {
         console.log(cloth_result);
         cloth_result=cloth_result.substring(5);
         console.log(cloth_result);
+        cloth_url = data[2]
       });
       resolve()
     }, millis);
@@ -70,7 +74,7 @@ app.get('/result', function (req, res) {
   //res.sendfile(cloth_import);
   console.log("きとる");
   console.log(cloth_result);
-  res.render("result",{file:cloth_result});
+  res.render("result",{file:cloth_result, url:cloth_url});
 });
 
 
@@ -84,22 +88,6 @@ app.post('/download', async (req, res) => {
   fs.writeFile('./images/downloads/canvas.png', buf, function(err, result) {
     if(err) console.log('error', err);
   });
-
-  // PythonShell.run('color.py', null, function (err, data) {
-  //     console.log(data);
-  //     console.log('finished');
-  //     cloth_result=data[1];
-  //     console.log(cloth_result);
-  //     cloth_result=cloth_result.substring(5);
-  //     console.log(cloth_result);
-  // });
-
-
-
-  //console.log("遷移するはずやねんな");
-  //res.render("index",{file:cloth_result});
-
-  // res.redirect(307,'/result');
 });
 
 app.get('/analysis', (req, res, next) => {
@@ -109,12 +97,12 @@ app.get('/analysis', (req, res, next) => {
 
 async function awaitFunc(res) {
   console.log(1);
-  await sleep(1000); // Promise が返ってくるまで awaitで 処理停止
+  await sleep(2000); // Promise が返ってくるまで awaitで 処理停止
   console.log(2); // 約3秒経過に表示
 }
 async function awaitRedirect(res) {
   console.log(3);
-  await redirects(2000,res); // Promise が返ってくるまで awaitで 処理停止
+  await redirects(3000,res); // Promise が返ってくるまで awaitで 処理停止
   console.log(4); // 約3秒経過に表示
 }
 

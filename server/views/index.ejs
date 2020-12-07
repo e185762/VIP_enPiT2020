@@ -8,26 +8,31 @@
  </head>
  <body>
 
-	 <center><h1 class="text">ようこそ！</h1><br>
-		 <p class="text">このサイトは自分のデザインから類似した服を見つけることができます</p><br>
-	<h2 class="text">まずは自分のイメージする洋服を描いてみよう</center></h2>
 	<center>
-    <canvas id="canvas" width="640px" height="640px">残念ながらHTML5に対応していません
+    <h1 class="text">ようこそ！</h1><br>
+    <p class="text">このサイトは自分のデザインから類似した服を見つけることができます</p><br>
+    <h2 class="text">まずは自分のイメージする洋服を描いてみよう</h2>
   </center>
-      <div>
-      <input id="inputColor" type="color" value="#ff0000">
-      <button id="pen-s">細</button>
-      <button id="pen-m">中</button>
-      <button id="pen-l">太</button>
-      <center>
-        <button id="eraser">消しゴム</button>
-        <button id="clear">全削除</button>
-        <button id="buttonSave">保存する</button>
-        <button id="fillColor">塗りつぶし</button>
-      </center>
-      <button id="warm-color">あたたかい色</button>
-      <button id="cold-color">つめたい色</button>
-      </div>
+
+  <div>
+    <canvas id="canvas" width="640px" height="640px">残念ながらHTML5に対応していません
+  </div>
+  <div>
+    <img class="arrow" id="prevCanvas" src="prev.png">
+    <img class="arrow" id="nextCanvas" src="next.png"><br>
+    <input class="inputColor" id="inputColor" type="color" value="#ff0000"><br>
+    <button class="warm-color" id="warm-color">あたたかい色</button><br>
+    <button class="cold-color" id="cold-color">つめたい色</button><br><br>
+    <img class="icon-button large" id="eraser" src="eraser.png">
+    <img class="icon-button large" id="fillColor" src="pail.png"><br>
+    <button class="icon-button small" id="pen-s">S</button>
+    <button class="icon-button medium" id="pen-m">M</button>
+    <button class="icon-button" id="pen-l">L</button><br>
+    <!-- <button class="fillColorSleevesL" id="fillColorSleevesL">塗りつぶし(袖左)</button>
+    <button class="fillColorSleevesR" id="fillColorSleevesR">塗りつぶし(袖右)</button> -->
+    <button id="clear">全削除</button><br>
+    <button id="buttonSave">保存する</button>
+  </div>
 
 
       
@@ -35,7 +40,16 @@
 //const fs = require('fs');
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
+var ctx2 = canvas.getContext("2d");
+var ctx3 = canvas.getContext("2d");
 ctx.strokeStyle = 'rgb(255,0,0)';//初期描画線の色赤
+
+// Canvas状態の保存
+var myStorage = localStorage;
+window.onload = initLocalStorage();
+var moveflg = 0,
+    currentCanvas,
+    temp = [];
 
 // Image オブジェクトを生成
 var img = new Image();
@@ -81,6 +95,10 @@ if(draw === true) {
   //クリックしたら描画をOKの状態にする
 canvas.addEventListener("mousedown",function(e) {
     ctx.strokeStyle = document.querySelector("#inputColor").value;
+    ctx.strokeStyle = document.querySelector("#fillColor").value;
+    // ctx.strokeStyle = document.querySelector("#fillColorSleevesL").value;
+    // ctx.strokeStyle = document.querySelector("#fillColorSleevesR").value;
+    ctx.fillStyle = document.querySelector("#inputColor").value;
     draw = true;
     mouseX1 = mouseX;
     mouseY1 = mouseY;
@@ -95,7 +113,8 @@ canvas.addEventListener("mouseup", function(e){
   img2.src = "Tshirt-shape.png";
   img2.onload = function(){
     ctx.drawImage(img2, -10, 0, 659, 659);
-}
+  }
+  setLocalStoreage()
 });
 
 //ラインの太さ
@@ -118,10 +137,10 @@ canvas.addEventListener("mouseup", function(e){
   });
 
 //消しゴムボタンを起動する
-　$('#eraser').click(function(e) {
+$('#eraser').click(function(e) {
   erase = true;
   ctx.globalCompositeOperation = 'destination-out';
-  });
+});
 
 //色を選択して変更する
 $('#inputColor').click(function(e) {
@@ -131,33 +150,136 @@ $('#inputColor').click(function(e) {
 
 //塗りつぶし
 $('#fillColor').click(function(e) {
-//Tシャツ画像位置
-ctx.moveTo(161, 125);
-ctx.lineTo(40, 204);
-ctx.lineTo(100, 295);
-ctx.lineTo(160, 256);
-ctx.lineTo(160, 556);
-ctx.lineTo(479, 556);
-ctx.lineTo(479, 256);
-ctx.lineTo(539, 295);
-ctx.lineTo(597, 204);
-ctx.lineTo(477, 125);
-ctx.lineTo(369, 102);
-ctx.quadraticCurveTo(319, 127, 270, 102);
-//ctx.stroke();
-ctx.fillStyle = document.querySelector("#inputColor").value;
-ctx.fill();
-var img2 = new Image();
-  img2.src = "Tshirt-shape.png";
-  img2.onload = function(){
-    ctx.drawImage(img2, -10, 0, 659, 659);
-}
+  //Tシャツ画像位置
+  ctx.moveTo(161, 125);
+  ctx.lineTo(63, 190);
+  ctx.lineTo(119, 280);
+  ctx.lineTo(160, 256);
+  ctx.lineTo(160, 556);
+  ctx.lineTo(479, 556);
+  ctx.lineTo(479, 256);
+  ctx.lineTo(520, 280);
+  ctx.lineTo(577, 190);
+  ctx.lineTo(477, 125);
+  ctx.lineTo(369, 102);
+  ctx.quadraticCurveTo(319, 127, 270, 102);
+  ctx.lineTo(161, 125);
+
+  ctx.fillStyle = document.querySelector("#inputColor").value;
+  ctx.fill();
+
+  var img2 = new Image();
+    img2.src = "Tshirt-shape.png";
+    img2.onload = function(){
+      ctx.drawImage(img2, -10, 0, 659, 659);
+  }
+  setLocalStoreage()
 });
 
+//塗りつぶし(袖左)
+$('#fillColorSleevesL').click(function(e) {
+  ctx.moveTo(58, 195);
+  ctx.lineTo(42, 204);
+  ctx.lineTo(102, 295);
+  ctx.lineTo(114, 284);
+  ctx.lineTo(58, 195);
+  ctx.fillStyle = document.querySelector("#inputColor").value;
+  ctx.fill();
 
+  var img2 = new Image();
+    img2.src = "Tshirt-shape.png";
+    img2.onload = function(){
+      ctx.drawImage(img2, -10, 0, 659, 659);
+  }
+
+});
+
+//塗りつぶし(袖右)
+$('#fillColorSleevesR').click(function(e) {
+  //Tシャツ画像位置
+  ctx.moveTo(580, 193);
+  ctx.lineTo(597, 205);
+  ctx.lineTo(539, 295);
+  ctx.lineTo(522, 285);
+  ctx.strokeStyle = document.querySelector("#inputColor").value;
+  ctx.stroke();
+  ctx.fillStyle = document.querySelector("#inputColor").value;
+  ctx.fill();
+
+  var img2 = new Image();
+    img2.src = "Tshirt-shape.png";
+    img2.onload = function(){
+      ctx.drawImage(img2, -10, 0, 659, 659);
+  }
+
+});
+
+$('#prevCanvas').click(function(e) {
+  var logs = JSON.parse(myStorage.getItem("__log"));
+ 
+ if(logs.length > 0) {
+    temp.unshift(logs.shift());
+
+    setTimeout(function(){
+        myStorage.setItem("__log", JSON.stringify(logs));
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, -10, 0, 659, 659);
+        // console.log("prev --> ", logs[0]['png']);
+        prev_next_draw(logs[0]['png']);
+
+    }, 0);
+  } else {
+    console.log("初期状態です。");
+  }
+});
+
+$('#nextCanvas').click(function(e) {
+  var logs = JSON.parse(myStorage.getItem("__log"));
+ 
+ if(temp.length > 0) {
+    logs.unshift(temp.shift());
+
+    setTimeout(function(){
+        myStorage.setItem("__log", JSON.stringify(logs));
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, -10, 0, 659, 659);
+        // console.log("next --> ", logs[0]['png']);
+        prev_next_draw(logs[0]['png']);
+
+    }, 0);
+ }
+});
+
+function initLocalStorage(){
+    myStorage.setItem("__log", JSON.stringify([]));
+}
+
+function setLocalStoreage(){
+  var canvas = document.getElementById('canvas');
+  var png = canvas.toDataURL();
+  var logs = JSON.parse(myStorage.getItem("__log"));
+
+  setTimeout(function(){
+      logs.unshift({png});
+
+      myStorage.setItem("__log", JSON.stringify(logs));
+
+      currentCanvas = 0;
+      temp = [];
+
+  }, 0);
+}
+
+function prev_next_draw(src) {
+    var draw_img = new Image();
+    draw_img.src = src;
+    draw_img.onload = function() {
+      ctx.drawImage(draw_img, 0, 0, 640, 640);
+    }
+}
 // 保存ボタンの処理
 $('#buttonSave').click(function(e) {
-  const SAVE_URL = 'http://13.113.194.238:443/download';
+  const SAVE_URL = 'http://localhost:443/download';
   var canvas = document.getElementById('canvas');
   var base64 = canvas.toDataURL("image/png");
   let link = document.createElement("a");
@@ -170,7 +292,7 @@ $('#buttonSave').click(function(e) {
     // サーバへ送信
     sendServer(base64);
     document.getElementById("buttonSave").href = base64;
-    location.replace("http://13.113.194.238:443/analysis");
+    location.replace("http://localhost:443/analysis");
   }
 
 });
