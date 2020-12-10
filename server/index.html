@@ -7,60 +7,40 @@
    <title>[DFS]~designed fashion selenes~</title>
  </head>
  <body>
-
+ 
 	 <center><h1 class="text">ようこそ！</h1><br>
 		 <p class="text">このサイトは自分のデザインから類似した服を見つけることができます</p><br>
-	 <!-- <center>画像を探してね<br>あなたが落としたのは綺麗な服？イラストや？</center> -->
-	 <img class="just" src="home.jpg">
-	 <!-- <img class="just" src="shichaku_woman.png"><br> -->
-	 <!-- <left>アップロードしたい画像を選んでね<left><br> -->
-	 <!-- <input type="file" id="sample" accept="image/*" multiple><br> -->
-	 <!-- <div id="preview"></div> -->
-
 	<h2 class="text">まずは自分のイメージする洋服を描いてみよう</center></h2>
 	<center>
     <canvas id="canvas" width="640px" height="640px">残念ながらHTML5に対応していません
   </center>
-      <p><input id="inputColor" type="color" value="#ff0000"></p>
-<<<<<<< HEAD
-      <p><center><button id="eraser">消しゴム</button></center></p>
-      <p><center><button id="clear">全削除</button></center></p>
-       <form  method = "post">
-     <input type="button" id='script' name="submit" value="Run Script">
-    </form>
+      <div>
+      <input id="inputColor" type="color" value="#ff0000">
+      <button id="eraser">消しゴム</button>
+      <button id="clear">全削除</button>
+      <a id="buttonSave" href="#" download="canvas.png">保存する</a>
+      </div>
 
-
-=======
-      <p><button id="eraser">消しゴム</button></p>
-      <p><button id="clear">全削除</button></p>
-      <p><a id="buttonSave" href="#" download="canvas.png">保存する</a></p>
       
->>>>>>> master
-
 <script type="text/javascript">
 //const fs = require('fs');
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-// ctx.strokeStyle = 'rgb(112,128,144)'; //枠線の色は青
-
+ctx.strokeStyle = 'rgb(255,0,0)';//初期描画線の色赤
+var erase = false;
 // Image オブジェクトを生成
 var img = new Image();
 img.src = "Tshirt.png";
 
 // 画像読み込み終了してから描画
 img.onload = function(){
-    ctx.drawImage(img, 0, 0, 600, 600);
+    ctx.drawImage(img, -10, 0, 660, 660);
 }
 
 
 //マウスを操作する
 var mouse = {x:0,y:0,x1:0,y1:0,color:"black"};
 var draw = false;
-
-//flag
-var flag = false
-var paintColor = document.querySelector("#inputColor").value;
-ctx.strokeStyle = document.querySelector("#inputColor").value;
 
 //マウスの座標を取得する
 canvas.addEventListener("mousemove",function(e) {
@@ -85,7 +65,16 @@ canvas.addEventListener("mousemove",function(e) {
 });
 
   //クリックしたら描画をOKの状態にする
-  canvas.addEventListener("mousedown",function(e) {
+canvas.addEventListener("mousedown",function(e) {
+    var color_val = document.querySelector("#inputColor").value;
+    //カラーパレット開きっぱなし状態で色を変える
+    if (color_val != ctx.strokeStyle) {
+      ctx.strokeStyle = document.querySelector("#inputColor").value;
+    } else {
+      if (erase) {
+        ctx.strokeStyle = 'rgb(255, 255, 255)';
+      }
+    }
     draw = true;
     mouseX1 = mouseX;
     mouseY1 = mouseY;
@@ -102,26 +91,27 @@ canvas.addEventListener("mouseup", function(e){
  		if(!confirm('本当に消去しますか？')) return;
         e.preventDefault();
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-    });
-
+    ctx.drawImage(img, 0, 0, 600, 600);
+  });
 
 //消しゴムボタンを起動する
 　$('#eraser').click(function(e) {
-  ctx.strokeStyle = 'rgb(255, 255, 255)';
+  // ctx.strokeStyle = 'rgb(255, 255, 255)';
+  erase = true;
     });
 
 //色を選択して変更する
 $('#inputColor').click(function(e) {
-  var paintColor = document.querySelector("#inputColor").value;
-    ctx.strokeStyle = paintColor
-    });
+  ctx.strokeStyle = document.querySelector("#inputColor").value;
+  erase = false;
+});
 
 // 保存ボタンの処理
 $('#buttonSave').click(function(e) {
   const SAVE_URL = 'http://localhost:443/download';
   var canvas = document.getElementById('canvas');
   var base64 = canvas.toDataURL("image/png");
-  console.log(base64);
+  // console.log(base64);
   // 送信情報の設定
   if (base64) {
     // サーバへ送信
@@ -145,28 +135,6 @@ async function sendServer(param) {
 
 
 </script>
-<<<<<<< HEAD
-
-<!-- <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-
-   <script>
-       function goPython(){
-           $.ajax({
-             type: 'POST',
-             url: "/color.py",
-             //or some other path like /scripts/test.py
-             dataType: "text",
-             success: function (data) {
-               alert(data)
-             },
-             error: function (data) {
-               alert(data)
-             }
-           });
-       }
-   </script> -->
- </body>
-=======
 </body>
->>>>>>> master
 </html>
+

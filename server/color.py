@@ -1,151 +1,205 @@
+import sqlite3
+import numpy as np
+import io
+import cv2
+import matplotlib.pyplot as plt
 
 def access_db ():
-  import sqlite3
-  import numpy as np
-  import io
+    sqlite3.register_adapter(list, lambda l: ';'.join([str(i) for i in l]))
+    sqlite3.register_converter('List', lambda s: [item.decode('utf-8')  for item in s.split(bytes(b';'))])
+    sqlite3.register_adapter(bool, lambda b: str(b))
+    sqlite3.register_converter('Bool', lambda l: bool(eval(l)))
 
-  def adapt_array(arr):
-     """
-     http://stackoverflow.com/a/31312102/190597 (SoulNibbler)
-     """
-     out = io.BytesIO()
-     np.save(out, arr)
-     out.seek(0)
-     return sqlite3.Binary(out.read())
-  def convert_array(text):
-      out = io.BytesIO(text)
-      out.seek(0)
-      return np.load(out)
+    def adapt_array(arr):
+        """
+        http://stackoverflow.com/a/31312102/190597 (SoulNibbler)
+        """
+        out = io.BytesIO()
+        np.save(out, arr)
+        out.seek(0)
+        return sqlite3.Binary(out.read())
+    def convert_array(text):
+        out = io.BytesIO(text)
+        out.seek(0)
+        return np.load(out)
 
 # Converts np.array to TEXT when inserting
-  sqlite3.register_adapter(np.ndarray, adapt_array)
+    sqlite3.register_adapter(np.ndarray, adapt_array)
 
 # Converts TEXT to np.array when selecting
-  sqlite3.register_converter("array", convert_array)
+    sqlite3.register_converter("array", convert_array)
 
-  con = sqlite3.connect( "sample.db", detect_types=sqlite3.PARSE_DECLTYPES)
-  cur = con.cursor()
+    con = sqlite3.connect( 'DFS.db', detect_types=sqlite3.PARSE_DECLTYPES)
+    cur = con.cursor()
+#   cur.execute("create table IMAGE (id,label,URL,Red_histr array ,Green_histr array ,Blue_histr array)")
 
-  return con, cur
+    return con, cur
 
-def color_histogram(image,label):
-  """
-    画像のヒストグラムのデータ量を取得する
+def color_divide(blue,green,red):
+    if(blue <= 50 and green <= 50 and red <= 50 ):
+#         print("黒")
+        return "黒"
+    elif(blue >= 230 and green >= 230 and red >= 230 ):
+#         print("白")
+        return "白"
+    else:
+        if(red == blue and red == green):
+#             print("判別できない")
+            return null
+        else:
+            if (red >= green and red >= blue):
+                if (green >= blue):
+                    distance = red - blue
+                    dis_3_1 = round(distance * 0.333) + blue
+                    dis_3_2 = round(distance * 0.666) + blue
+                    if (green < dis_3_1):
+#                         print("赤")
+                        return "赤"
+                    elif (dis_3_1 <= green <= dis_3_2):
+#                         print("オレンジ")
+                        return "オレンジ"
+                    elif (dis_3_2 < green):
+#                         print("黄色")
+                        return "黄色"
+                elif (green < blue):
+                        distance = red - green
+                        dis_3_1 = round(distance * 0.333) + green
+                        dis_3_2 = round(distance * 0.666) + green
+                        if (blue < dis_3_1):
+#                             print("赤")
+                            return "赤"
+                        elif (dis_3_1 < blue < dis_3_2):
+#                             print("ピンク")
+                            return "ピンク"
+                        elif (dis_3_2 < blue):
+#                             print("紫")
+                            return "紫"
+            elif (blue >= green and blue >= red):
+                if (red >= green):
+                    distance = blue - green
+                    dis_3_1 = round(distance * 0.333) + green
+                    dis_3_2 = round(distance * 0.666) + green
+                    if (red < dis_3_1):
+#                         print("青")
+                        return "青"
+                    elif (dis_3_1 <= red <= dis_3_2):
+#                         print("紫")
+                        return "紫"
+                    elif (dis_3_2 < red):
+#                         print("ピンク")
+                        return "ピンク"
+                elif (red < blue):
+                        distance = blue - red
+                        dis_3_1 = round(distance * 0.333) + red
+                        dis_3_2 = round(distance * 0.666) + red
+                        if (green < dis_3_1):
+#                             print("青")
+                            return "青"
+                        elif (dis_3_1 < green < dis_3_2):
+#                             print("青")
+                            return "青"
+                        elif (dis_3_2 < green):
+#                             print("水色")
+                            return "水色"
+            elif (green >= red and green >= blue):
+                if (red >= blue):
+                    distance = green - blue
+                    dis_3_1 = round(distance * 0.333) + blue
+                    dis_3_2 = round(distance * 0.666) + blue
+                    if (red < dis_3_1):
+#                         print("緑")
+                        return "緑"
+                    elif (dis_3_1 <= red <= dis_3_2):
+#                         print("緑")
+                        return "緑"
+                    elif (dis_3_2 < red):
+#                         print("黄色")
+                        return "黄色"
+                elif (red < blue):
+                        distance = green - red
+                        dis_3_1 = round(distance * 0.333) + red
+                        dis_3_2 = round(distance * 0.666) + red
+                        if (blue < dis_3_1):
+#                             print("緑")
+                            return "緑"
+                        elif (dis_3_1 < blue < dis_3_2):
+#                             print("緑")
+                            return "緑"
+                        elif (dis_3_2 < blue):
+#                             print("水色")
+                            return "水色"
 
-    Parameters
-    ----------
-    image : str
-        検索したい画像のurl (なのかな？今回はlocalにある画像を使用しているよ)
-    label : str
-        検索したい画像のlabel　(ここではなんも処理してないから変えたほうがいいかも)
-    Returns
-    -------
-    hist_g_R : numpy.array
-        赤色のヒストグラムのデータ量
-    hist_g_G : numpy.array
-        緑色のヒストグラムのデータ量
-    hist_g_B : numpy.array
-        青色のヒストグラムのデータ量
-    label : str
-        検索したい画像のlabel
-  """
+def color_search(IMAGE):
+    xy_canvas = []
+    y = 180
+    while(180 <= y < 455):
+        x = 195
+        while(195 <= x < 435):
+            x += 8
+            xy_canvas.append([x,y])
+        y += 7
 
+    image = IMAGE
+    img = cv2.imread(image) #画つ目の像を読み出しオブジェクトimg_1に代入
 
-  import cv2  #OpenCVのインポート
-  import matplotlib.pyplot as plt #matplotlib.pyplotのインポート
+    #画像の表示
+    plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)) # OpenCV は色がGBR順なのでRGB順に並べ替える
+#     plt.show()
 
+    RGB = []
+    color_list = []
 
-  fname = image #1つ目の画像ファイル名
+    for i in xy_canvas:
+        x = i[0]
+        y = i[1]
+        rgb = img[y,x]
+        RGB.append(rgb)
 
-  img = cv2.imread(fname) #画つ目の像を読み出しオブジェクトimg_1に代入
+    for i in RGB:
+        blue = i[0]
+        green = i[1]
+        red = i[2]
+        color_str = color_divide(blue,green,red)
+        color_list.append(color_str)
 
-  hist_g_R = cv2.calcHist([img],[2],None,[256],[0,256]) #imgのR(赤)のヒストグラムを計算
-  plt.plot(hist_g_R,color = "r") #ヒストグラムをプロット
-  plt.show() #プロットを表示
+    return color_list
 
-  hist_g_G = cv2.calcHist([img],[1],None,[256],[0,256]) #imgのG(緑)のヒストグラムを計算
-  plt.plot(hist_g_G,color = "g") #ヒストグラムをプロット
-  plt.show() #プロットを表示
+def Similar_Search(color_list):
+    con,cur = access_db()
 
-  hist_g_B = cv2.calcHist([img],[0],None,[256],[0,256]) #imgのB(青)のヒストグラムを計算
-  plt.plot(hist_g_B,color = "b") #ヒストグラムをプロット
-  plt.show() #プロットを表示
+    URL_LIST = []
+    cur.execute("SELECT * FROM IMAGE")
+    rows = cur.fetchall()
+    for row in rows:
+        similar_num = 0
+        color_s = row[4]
+        URL = row[2]
+        PATH = row[3]
 
-  return hist_g_R, hist_g_G, hist_g_B, label
+        for i in range(len(color_list)):
+            if (color_list[i] == color_s[i]):
+                similar_num += 1
+            else:
+                similar_num = similar_num
 
-def Similar_Search (hist_g_R, hist_g_G, hist_g_B, label):
-  #コードが冗長になってて、ごめんなさい。見やすくします
-  """
-    似ている画像を表示する
+        similar_parcent = similar_num/len(color_list) * 100
 
-    Parameters
-    ----------
-    hist_g_R : numpy.array
-        対象画像の赤色ヒストグラムのデータ量
-    hist_g_G : numpy.array
-        対象画像の緑色ヒストグラムのデータ量
-    hist_g_B : numpy.array
-        対象画像の赤色ヒストグラムのデータ量
-    label : 対象データのlabel
-  """
-  import cv2  #OpenCVのインポート
-  import matplotlib.pyplot as plt #matplotlib.pyplotのインポート
-  import matplotlib.image as mpimg
+        if(similar_parcent >= 60):
+            URL_LIST.append([similar_parcent,URL,PATH])
 
-  con,cur = access_db()
+        URL_LIST.sort(reverse=True)
 
-  url = []
-  comp_hist_list = []
-  comp_2_list = []
-  comp_choce = []
+    for i in URL_LIST:
+        image = i[2]
+        img = cv2.imread(image) #画つ目の像を読み出しオブジェクトimg_1に代入
+        #画像の表示
+        plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)) # OpenCV は色がGBR順なのでRGB順に並べ替える
+#         plt.show()
 
-  n = 0
+    print(URL_LIST)
+    print(URL_LIST[0][2])
+    print(URL_LIST[0][1])
 
-  sql = "select * from IMAGE"
-  cur.execute(sql)
-  for row in cur:
-      if row[1] == label:
-          comp_hist_R = cv2.compareHist(hist_g_R, row[3], cv2.HISTCMP_CORREL) #ヒストグラムの比較。比較methodにcv2.HISTCMP_CORRELを使用
-  #         print(comp_hist_R) #類似度を表示
-          comp_hist_G = cv2.compareHist(hist_g_G, row[4], cv2.HISTCMP_CORREL)
-  #         print(comp_hist_G)
-          comp_hist_B = cv2.compareHist(hist_g_B, row[5], cv2.HISTCMP_CORREL)
-  #         print(comp_hist_B)
-
-          comp_hist_sum = comp_hist_R + comp_hist_G + comp_hist_B
-  #         print(comp_hist_sum)
-          lis = [comp_hist_sum, row[2]]
-          comp_2_list.append(lis)
-  #         print(comp_2_list)
-
-          comp_hist_list.append(comp_hist_sum)
-          list.sort(comp_hist_list, reverse=True)
-          print(comp_hist_list )
-
-  comp_choce.append(comp_hist_list[0])
-  comp_choce.append(comp_hist_list[1])
-  # print(comp_choce)
-
-  for i in comp_2_list:
-      for j in comp_choce:
-          if i[0] == j:
-              url.append(i[1])
-
-  print(url)
-
-  for image in url:
-    img = mpimg.imread(image)
-    plt.figure()
-    plt.imshow(img)
-    plt.show()
-
-  con.close()
-
-def main():
-  image = "image/T_shirt/T_shirt_01.jpg" # もらってきた画像
-  label = "T_shirt" # 検索するラベル
-
-  hist_R,hist_G,hist_B,label = color_histogram(image,label)
-  Similar_Search(hist_R,hist_G,hist_B,label)
-
-main()
+IMAGE = "images/downloads/image.png"
+color_hist = color_search(IMAGE)
+Similar_Search(color_hist)
