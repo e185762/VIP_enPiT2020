@@ -90,7 +90,8 @@ app.get('/result/:uuid', function (req, res) {
   console.log(cloth_result);
   var cloth_result = req.cookies.cloth_result;
   var cloth_url = req.cookies.cloth_url;
-  res.render("result",{file:cloth_result, url:cloth_url});
+  var test = req.cookies.test;
+  res.render("result",{file:cloth_result, url:cloth_url, image:"/share_image/"+test + ".png"});
 });
 
 app.get('/download', async (req, res) => {
