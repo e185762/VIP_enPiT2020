@@ -13,30 +13,29 @@
     <p class="text">このサイトは自分のデザインから類似した服を見つけることができます</p><br>
     <h2 class="text">まずは自分のイメージする洋服を描いてみよう</h2>
   </center>
-  <div>
-    <img class="arrow" id="prevCanvas" src="prev.png">
-    <img class="arrow" id="nextCanvas" src="next.png"><br>
-    <input class="icon-color inputColor" id="inputColor" type="color" value="#ff0000"><br>
-    <button class="icon-color warm-color" id="warm-color">あたたかい色</button><br>
-    <button class="icon-color cold-color" id="cold-color">つめたい色</button><br><br>
-    <img class="icon-button large" id="pen" src="pen.png">
-    <img class="icon-button large" id="eraser" src="eraser.png">
-    <img class="icon-button large" id="fillColor" src="pail.png"><br>
-    <button class="icon-button small" id="pen-s">細</button>
-    <button class="icon-button medium" id="pen-m">中</button>
-    <button class="icon-button" id="pen-l">太</button><br>
-    <!-- <button class="fillColorSleevesL" id="fillColorSleevesL">塗りつぶし(袖左)</button>
-    <button class="fillColorSleevesR" id="fillColorSleevesR">塗りつぶし(袖右)</button> -->
-    <button class="icon-operate clear" id="clear">全削除</button><br>
-    <button class="icon-operate buttonSave" id="buttonSearch">検索する</button>
-    <button class="icon-operate buttonSave" id="buttonSave">保存する</button>
-
-  </div>
-  <div>
-    <canvas id="canvas" width="640px" height="640px">残念ながらHTML5に対応していません
-  </div>
-
-
+  <table cellspacing="0" cellpadding="20" align="center">
+    <td>
+      <canvas id="canvas" width="640px" height="640px">残念ながらHTML5に対応していません
+    </td>
+    <td>
+      <img class="arrow" id="prevCanvas" src="prev.png">
+      <img class="arrow" id="nextCanvas" src="next.png"><br>
+      <input class="icon-color inputColor" id="inputColor" type="color" value="#ff0000"><br>
+      <button class="icon-color warm-color" id="warm-color">あたたかい色</button><br>
+      <button class="icon-color cold-color" id="cold-color">つめたい色</button><br><br>
+      <img class="icon-button large" id="pen" src="pen.png">
+      <img class="icon-button large" id="eraser" src="eraser.png">
+      <img class="icon-button large" id="fillColor" src="pail.png"><br>
+      <button class="icon-button small" id="pen-s">細</button>
+      <button class="icon-button medium" id="pen-m">中</button>
+      <button class="icon-button" id="pen-l">太</button><br>
+      <!-- <button class="fillColorSleevesL" id="fillColorSleevesL">塗りつぶし(袖左)</button>
+      <button class="fillColorSleevesR" id="fillColorSleevesR">塗りつぶし(袖右)</button> -->
+      <button class="icon-operate clear" id="clear">全削除</button><br>
+      <button class="icon-operate buttonSave" id="buttonSearch">検索する</button>
+      <button class="icon-operate buttonSave" id="buttonSave">保存する</button>
+    </td>
+</table>
       
 <script type="text/javascript">
 //const fs = require('fs');
