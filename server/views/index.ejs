@@ -28,7 +28,9 @@
     <!-- <button class="fillColorSleevesL" id="fillColorSleevesL">塗りつぶし(袖左)</button>
     <button class="fillColorSleevesR" id="fillColorSleevesR">塗りつぶし(袖右)</button> -->
     <button class="icon-operate clear" id="clear">全削除</button><br>
+    <button class="icon-operate buttonSave" id="buttonSearch">検索する</button>
     <button class="icon-operate buttonSave" id="buttonSave">保存する</button>
+
   </div>
   <div>
     <canvas id="canvas" width="640px" height="640px">残念ながらHTML5に対応していません
@@ -283,16 +285,14 @@ function prev_next_draw(src) {
       ctx.drawImage(draw_img, 0, 0, 640, 640);
     }
 }
-// 保存ボタンの処理
-$('#buttonSave').click(function(e) {
-  const SAVE_URL = 'http://localhost:443/download';
+
+// 検索ボタンの処理
+$('#buttonSearch').click(function(e) {
+  // const SAVE_URL = 'http://localhost:443/download';
   var canvas = document.getElementById('canvas');
   var base64 = canvas.toDataURL("image/png");
-  let link = document.createElement("a");
-  link.href = canvas.toDataURL("image/png");
-  link.download = "canvas.png";
-  link.click();
   // console.log(base64);
+
   // 送信情報の設定
   if (base64) {
     // サーバへ送信
@@ -300,7 +300,17 @@ $('#buttonSave').click(function(e) {
     document.getElementById("buttonSave").href = base64;
     location.replace("http://localhost:443/analysis");
   }
+  
+});
 
+// 保存ボタンの処理
+$('#buttonSave').click(function(e) {
+  var canvas = document.getElementById('canvas');
+  var base64 = canvas.toDataURL("image/png");
+  let link = document.createElement("a");
+  link.href = canvas.toDataURL("image/png");
+  link.download = "canvas.png";
+  link.click();
 });
 
 async function sendServer(param) {

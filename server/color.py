@@ -200,6 +200,6 @@ def Similar_Search(color_list):
     print(URL_LIST[0][2])
     print(URL_LIST[0][1])
 
-IMAGE = "images/downloads/image.png"
+IMAGE = "images/downloads/canvas.png"
 color_hist = color_search(IMAGE)
 Similar_Search(color_hist)
