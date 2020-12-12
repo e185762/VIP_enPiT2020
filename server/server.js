@@ -16,6 +16,8 @@ const path = require("path");
 var cloth_result=null;
 var cloth_url=null;
 
+var uuid = null;
+
 /* DO NOT USE LOCALHOST */
 // var options = {
 //      mode: 'text',
@@ -25,19 +27,45 @@ var cloth_url=null;
 //      scriptPath: '/home/ec2-user/VIP_enPiT2020/server/'
 //     };
 
+
 const sleep = (millis) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      PythonShell.run('color.py', null, function (err, data) {
-        console.log(err);
-	console.log(data);
-        console.log('finished');
-        cloth_result=data[1];
-        console.log(cloth_result);
-        cloth_result=cloth_result.substring(5);
-        console.log(cloth_result);
-        cloth_url = data[2]
+      const path = 'images/share_image/' + uuid + '.png';
+      var pyshell = new PythonShell('color.py',{mode:'text'});
+      pyshell.send(path);
+      var n=0;
+      pyshell.on('message',function (data){
+          // console.log(err);
+          // console.log(typeof data);
+          // console.log(n);
+          if(n==0){
+            cloth_result = data;
+            cloth_result=cloth_result.substring(5);
+          }
+          else if (n==1){
+            cloth_url =  data;
+          }
+          n += 1
+          // console.log(data);
+          // console.log('finished');
+          // cloth_result=data;
+          // console.log(cloth_result);
+          // cloth_result=cloth_result.substring(5);
+          // console.log(cloth_result);
+          // cloth_url = data[2]
       });
+
+      // PythonShell.run('color.py', null, function (err, data) {
+      //   console.log(err);
+      //   console.log(data);
+      //   console.log('finished');
+      //   cloth_result=data[1];
+      //   console.log(cloth_result);
+      //   cloth_result=cloth_result.substring(5);
+      //   console.log(cloth_result);
+      //   cloth_url = data[2]
+      // });
       resolve()
     }, millis);
   });
@@ -93,7 +121,7 @@ app.post('/download', async (req, res) => {
   fs.writeFile('./images/downloads/image.png', buf, function(err, result) {
     if(err) console.log('error', err);
   });
-  var uuid = getUniqueStr();
+  uuid = getUniqueStr();
   fs.writeFile('./images/share_image/' + uuid + '.png', buf, function(err, result) {
     if(err) console.log('error', err);
   });

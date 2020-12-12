@@ -3,6 +3,7 @@ import numpy as np
 import io
 import cv2
 import matplotlib.pyplot as plt
+import sys
 
 def access_db ():
     sqlite3.register_adapter(list, lambda l: ';'.join([str(i) for i in l]))
@@ -196,10 +197,10 @@ def Similar_Search(color_list):
         # plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)) # OpenCV は色がGBR順なのでRGB順に並べ替える
 #         plt.show()
 
-    print(URL_LIST)
+    # print(URL_LIST)
     print(URL_LIST[0][2])
     print(URL_LIST[0][1])
 
-IMAGE = "images/downloads/image.png"
+IMAGE = input()
 color_hist = color_search(IMAGE)
 Similar_Search(color_hist)
