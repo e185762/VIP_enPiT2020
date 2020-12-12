@@ -186,7 +186,6 @@ img.arrow {
   border: 1px solid black;
 }
 
-<style>
  .container {
    width: 1000px;
    display: block;
@@ -197,7 +196,6 @@ img.arrow {
    width: 200px;
    margin: 15px;
  }
-</style>
 
 .hidden_box {
     margin: 2em 0;/*前後の余白*/

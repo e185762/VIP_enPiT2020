@@ -5,7 +5,9 @@ var app = express();
 const router = require('express-promise-router')();
 
 var {PythonShell} = require('python-shell');
+const cookieParser = require('cookie-parser');
 
+app.use(cookieParser());
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ limit:'100mb',extended: true }));
 
@@ -28,10 +30,12 @@ var uuid = null;
 //     };
 
 
-const sleep = (millis) => {
+const sleep = (millis,request,response) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const path = 'images/share_image/' + uuid + '.png';
+      console.log(request);
+      var test = request.cookies.test;
+      const path = 'images/share_image/' + test + '.png';
       var pyshell = new PythonShell('color.py',{mode:'text'});
       pyshell.send(path);
       var n=0;
@@ -42,9 +46,11 @@ const sleep = (millis) => {
           if(n==0){
             cloth_result = data;
             cloth_result=cloth_result.substring(5);
+            response.cookie('cloth_result', cloth_result, {maxAge:60000, httpOnly:false});
           }
           else if (n==1){
             cloth_url =  data;
+            response.cookie('cloth_url', cloth_url, {maxAge:60000, httpOnly:false});
           }
           n += 1
           // console.log(data);
@@ -70,10 +76,11 @@ const sleep = (millis) => {
     }, millis);
   });
 };
-const redirects = (millis,res) => {
+const redirects = (millis,res,req) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      res.redirect(307,'/result');
+      var test = req.cookies.test;
+      res.redirect(307,'/result/'+test);
       resolve()
     }, millis);
   });
@@ -103,13 +110,19 @@ app.get('/', function (req, res) {
   res.render("index",{files:files});
 });
 
-app.get('/result', function (req, res) {
+app.get('/result/:uuid', function (req, res) {
   //res.sendfile(cloth_import);
   console.log("きとる");
   console.log(cloth_result);
+  var cloth_result = req.cookies.cloth_result;
+  var cloth_url = req.cookies.cloth_url;
   res.render("result",{file:cloth_result, url:cloth_url});
 });
 
+app.get('/download', async (req, res) => {
+  res.cookie('test', uuid, {maxAge:60000, httpOnly:false});
+  res.redirect('/analysis/'+uuid);
+});
 
 app.post('/download', async (req, res) => {
   // クライアントからの送信データを取得する
@@ -127,19 +140,19 @@ app.post('/download', async (req, res) => {
   });
 });
 
-app.get('/analysis', (req, res, next) => {
-  awaitFunc(res).then(() => {awaitRedirect(res)});
+app.get('/analysis/:uuid', (req, res, next) => {
+  awaitFunc(req,res).then(() => {awaitRedirect(res,req)});
   //awaitFunc(res)
 });
 
-async function awaitFunc(res) {
+async function awaitFunc(req,res) {
   console.log(1);
-  await sleep(2000); // Promise が返ってくるまで awaitで 処理停止
+  await sleep(2000,req,res); // Promise が返ってくるまで awaitで 処理停止
   console.log(2); // 約3秒経過に表示
 }
-async function awaitRedirect(res) {
+async function awaitRedirect(res,req) {
   console.log(3);
-  await redirects(3000,res); // Promise が返ってくるまで awaitで 処理停止
+  await redirects(3000,res,req); // Promise が返ってくるまで awaitで 処理停止
   console.log(4); // 約3秒経過に表示
 }
 
