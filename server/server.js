@@ -8,15 +8,13 @@ var {PythonShell} = require('python-shell');
 const cookieParser = require('cookie-parser');
 
 app.use(cookieParser());
+
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ limit:'100mb',extended: true }));
 
 const multer  = require('multer');
 let execSync = require('child_process').execSync;
 const path = require("path");
-
-var cloth_result=null;
-var cloth_url=null;
 
 var uuid = null;
 
@@ -40,9 +38,6 @@ const sleep = (millis,request,response) => {
       pyshell.send(path);
       var n=0;
       pyshell.on('message',function (data){
-          // console.log(err);
-          // console.log(typeof data);
-          // console.log(n);
           if(n==0){
             cloth_result = data;
             cloth_result=cloth_result.substring(5);
@@ -53,29 +48,12 @@ const sleep = (millis,request,response) => {
             response.cookie('cloth_url', cloth_url, {maxAge:60000, httpOnly:false});
           }
           n += 1
-          // console.log(data);
-          // console.log('finished');
-          // cloth_result=data;
-          // console.log(cloth_result);
-          // cloth_result=cloth_result.substring(5);
-          // console.log(cloth_result);
-          // cloth_url = data[2]
       });
-
-      // PythonShell.run('color.py', null, function (err, data) {
-      //   console.log(err);
-      //   console.log(data);
-      //   console.log('finished');
-      //   cloth_result=data[1];
-      //   console.log(cloth_result);
-      //   cloth_result=cloth_result.substring(5);
-      //   console.log(cloth_result);
-      //   cloth_url = data[2]
-      // });
       resolve()
     }, millis);
   });
 };
+
 const redirects = (millis,res,req) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -97,10 +75,6 @@ app.use(express.static('images'));
 app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
-  //res.sendfile('index.ejs');
-  //console.log(cloth_import);
-  //res.render("test",{file:cloth_import});
-  //res.redirect('http://google.com');
   var file = fs.readdirSync('./images/share_image');
   var files = [];
   for (let i = 0; i < file.length; i++){

@@ -48,15 +48,40 @@ div{
   margin-bottom: 40px;
 }
 
-
-img.arrow {
-  width: 25px;
-  height: 25px;
-
+.icon-color{               
+  display      : inline-block;
+  border: none;
+  border-radius: 10%;
+  box-shadow   : 3px 3px 3px #668ad8;
+  cursor       : pointer;              /* カーソル形状 */
+  transition   : .3s;
+  background-color: white;
+  margin: 5px 5px; /* 外側の時計回りの余白 */
 }
 
+.icon-color:hover {
+  box-shadow   : none;                 /* 影の設定 */
+}
+
+img.arrow {
+  border-radius: 30%;
+  box-shadow   : 3px 3px 3px #668ad8;
+  cursor       : pointer;              /* カーソル形状 */
+  transition   : .3s;
+  background: white;
+  width: 21px;
+  height: 21px;
+  padding: 4px 4px 4px 4px;
+  margin: 0px 5px;
+}
+
+.arrow:hover {
+  box-shadow   : none;                 /* 影の設定 */
+}
+  
 .icon-button {
   display      : inline-block;
+  border: none;
   border-radius: 50%;
   color: #668ad8;
   box-shadow   : 3px 3px 3px #668ad8;
@@ -72,7 +97,6 @@ img.arrow {
 .small {
   width: 17px;
   height: 17px;
-
 }
 
 .medium {
@@ -88,18 +112,6 @@ img.arrow {
 .icon-button:hover {
   box-shadow   : none;                 /* 影の設定 */
 }
-
-/* .fillColorSleevesL{
-  position: absolute;
-  right: 100px;
-  top: 540px;
-}
-
-.fillColorSleevesR{
-  position: absolute;
-  right: 100px;
-  top: 560px;
-} */
 
 #colorpicker:before {
   position: absolute;
@@ -235,4 +247,17 @@ img.arrow {
     padding: 10px 0;
     height: auto;
     opacity: 1;
+}
+
+.result-url{
+  border: none;
+  color: #fff;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.3s ease 0s;
+}
+
+.result-url:hover {
+  border: 5px solid #003366;
+  transform: translateY(0.1em);
 }

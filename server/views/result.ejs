@@ -9,10 +9,17 @@
  <body>
 
    　<% if (locals.file) { %>
-            <center><h1 class="text">検索結果はこちらです</h1><br>
-            <a href=<%= url %> target="_blank" rel="noopener noreferrer"><img src=<%= file %> width="640px" height="640px"></a>
-          </center>
-          <center><button id="return">検索画面にもどる</button></center>
+    <center><h1 class="text">検索結果はこちらです</h1></center><br>
+    <table cellspacing="0" cellpadding="20" align="center">
+
+      <td>
+        <img src="downloads/canvas.png" width="640px" height="640px" alt="検索結果の画像"">
+      </td>
+      <td>
+        <a class="result-url" href=<%= url %> target="_blank" rel="noopener noreferrer"><img src=<%= file %> width="600px" height="600px"></a>
+      </td><br>
+      </table>
+    <center><button id="return">検索画面にもどる</button></center>
      <% } %>
 
       
