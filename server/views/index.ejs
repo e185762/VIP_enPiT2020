@@ -31,13 +31,38 @@
     <!-- <button class="fillColorSleevesL" id="fillColorSleevesL">塗りつぶし(袖左)</button>
     <button class="fillColorSleevesR" id="fillColorSleevesR">塗りつぶし(袖右)</button> -->
     <button id="clear">全削除</button><br>
+    <label><input type="checkbox" id="check">true/falseを取得してみましょう</label>
+    <font color="red"><p id="result" ></p></font>
     <button id="buttonSave">保存する</button>
-  </div>
+    <% if (locals.files) { %>
+         <center><h1 class="text">今まで検索されたもの</h1><br></center>
+         <% for (var i=1; i<5; i++) {%>
+             <div class="container">
+               <img src=<%= files[i] %>>
+             </div>
+        <% } %>
+        <div class="hidden_box">
+          <label for="label1">^</label>
+          <input type="checkbox" id="label1"/>
+          <div class="hidden_show">
+        <% for (var i=5; i<files.length; i++) {%>
+              <!--非表示ここから-->
+              <div class="container">
+                <img src=<%= files[i] %>>
+              </div>
+              <!--ここまで-->
+
+       <% } %>
+     </div>
+   </div>
+      <% } %>
+    </div>
 
 
-      
+
 <script type="text/javascript">
-//const fs = require('fs');
+// const fs = require('fs');
+
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var ctx2 = canvas.getContext("2d");
@@ -216,7 +241,7 @@ $('#fillColorSleevesR').click(function(e) {
 
 $('#prevCanvas').click(function(e) {
   var logs = JSON.parse(myStorage.getItem("__log"));
- 
+
  if(logs.length > 0) {
     temp.unshift(logs.shift());
 
@@ -235,7 +260,7 @@ $('#prevCanvas').click(function(e) {
 
 $('#nextCanvas').click(function(e) {
   var logs = JSON.parse(myStorage.getItem("__log"));
- 
+
  if(temp.length > 0) {
     logs.unshift(temp.shift());
 
@@ -298,7 +323,7 @@ $('#buttonSave').click(function(e) {
 });
 
 async function sendServer(param) {
-  
+
   return fetch('./download', {
       method: "POST",
       headers: {
@@ -317,7 +342,7 @@ function hex2rgb ( hex ) {
 	var hex =  [ hex.slice( 0, 2 ), hex.slice( 2, 4 ), hex.slice( 4, 6 ) ].map( function ( str ) {
 		return parseInt( str, 16 ) ;
   } ) ;
-  
+
   return 'rgb' + '(' + hex[0] + ',' + hex[1] + ',' + hex[2] + ')';
 }
 
@@ -457,7 +482,14 @@ $(document).ready(function () {
   });
 });
 
+$("#check").on("click", function(){
+  if($(this).prop("checked") == true){
+    $("#result").text("true");
+  }else{
+    $("#result").text("false");
+  }
+});
+
 </script>
 </body>
 </html>
-

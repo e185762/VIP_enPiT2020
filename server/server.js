@@ -16,7 +16,6 @@ const path = require("path");
 var cloth_result=null;
 var cloth_url=null;
 
-
 /* DO NOT USE LOCALHOST */
 // var options = {
 //      mode: 'text',
@@ -67,7 +66,13 @@ app.get('/', function (req, res) {
   //console.log(cloth_import);
   //res.render("test",{file:cloth_import});
   //res.redirect('http://google.com');
-  res.render("index");
+  var file = fs.readdirSync('./images/share_image');
+  var files = [];
+  for (let i = 0; i < file.length; i++){
+    var fil = '/share_image/' + file[i];
+    files.push(fil)
+  }
+  res.render("index",{files:files});
 });
 
 app.get('/result', function (req, res) {
@@ -88,6 +93,10 @@ app.post('/download', async (req, res) => {
   fs.writeFile('./images/downloads/image.png', buf, function(err, result) {
     if(err) console.log('error', err);
   });
+  var uuid = getUniqueStr();
+  fs.writeFile('./images/share_image/' + uuid + '.png', buf, function(err, result) {
+    if(err) console.log('error', err);
+  });
 });
 
 app.get('/analysis', (req, res, next) => {
@@ -106,6 +115,10 @@ async function awaitRedirect(res) {
   console.log(4); // 約3秒経過に表示
 }
 
+function getUniqueStr(myStrong){
+ var strong = 1000;
+ if (myStrong) strong = myStrong;
+ return new Date().getTime().toString(16)  + Math.floor(strong*Math.random()).toString(16)
+}
 
 app.listen(443);
-

@@ -33,7 +33,7 @@ canvas {
   /* background-image: url("Tshirt.png");  */
   background-color: white;
   background-position: right 50% bottom 97%;
-  background-size: 103% 103%; 
+  background-size: 103% 103%;
   border: solid 5px brown;
   text-align:center;
 }
@@ -41,7 +41,7 @@ canvas {
 div{
   float: left;
   display: flex;
-	justify-content: center;  
+	justify-content: center;
   margin-right:20px;
   display:table;
   table-layout:fixed;
@@ -52,13 +52,13 @@ div{
 img.arrow {
   width: 25px;
   height: 25px;
-  
+
 }
-  
+
 .icon-button {
   display      : inline-block;
   border-radius: 50%;
-  color: #668ad8;                
+  color: #668ad8;
   box-shadow   : 3px 3px 3px #668ad8;
   cursor       : pointer;              /* カーソル形状 */
   transition   : .3s;
@@ -72,7 +72,7 @@ img.arrow {
 .small {
   width: 17px;
   height: 17px;
-  
+
 }
 
 .medium {
@@ -90,13 +90,13 @@ img.arrow {
 }
 
 /* .fillColorSleevesL{
-  position: absolute; 
+  position: absolute;
   right: 100px;
   top: 540px;
 }
 
 .fillColorSleevesR{
-  position: absolute; 
+  position: absolute;
   right: 100px;
   top: 560px;
 } */
@@ -184,4 +184,57 @@ img.arrow {
   height: 13px;
 
   border: 1px solid black;
+}
+
+<style>
+ .container {
+   width: 1000px;
+   display: block;
+   margin: 0 auto;
+   text-align: center;
+ }
+ .container>img {
+   width: 200px;
+   margin: 15px;
+ }
+</style>
+
+.hidden_box {
+    margin: 2em 0;/*前後の余白*/
+    padding: 0;
+}
+
+/*ボタン装飾*/
+.hidden_box label {
+    padding: 5px;
+    font-weight: 2px;
+    border-radius: 100vh red;
+    background-color: white;
+    cursor :pointer;
+}
+
+/*ボタンホバー時*/
+.hidden_box label:hover {
+    background: #efefef;
+}
+
+/*チェックは見えなくする*/
+.hidden_box input {
+    display: none;
+}
+
+/*中身を非表示にしておく*/
+.hidden_box .hidden_show {
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: 0.8s;
+}
+
+/*クリックで中身表示*/
+.hidden_box input:checked ~ .hidden_show {
+    padding: 10px 0;
+    height: auto;
+    opacity: 1;
 }
