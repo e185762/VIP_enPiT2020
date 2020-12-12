@@ -1,12 +1,12 @@
+import sys
+sys.path.append('/home/ec2-user/.local/lib/python3.7/site-packages/')
 import sqlite3
-import numpy as np
 import io
 import cv2
 import matplotlib.pyplot as plt
-import sys
-sys.path.append('/home/ec2-user/.local/lib/python3.7/site-packages/')
 
 def access_db ():
+    import numpy as np
     sqlite3.register_adapter(list, lambda l: ';'.join([str(i) for i in l]))
     sqlite3.register_converter('List', lambda s: [item.decode('utf-8')  for item in s.split(bytes(b';'))])
     sqlite3.register_adapter(bool, lambda b: str(b))

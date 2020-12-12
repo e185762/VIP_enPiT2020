@@ -29,7 +29,7 @@ var options = {
 const sleep = (millis) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      PythonShell.run('color.py', null, function (err, data) {
+      PythonShell.run('color.py', options, function (err, data) {
         console.log(err);
 	console.log(data);
         console.log('finished');

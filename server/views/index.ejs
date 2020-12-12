@@ -152,19 +152,18 @@ $('#inputColor').click(function(e) {
 $('#fillColor').click(function(e) {
   //Tシャツ画像位置
   ctx.moveTo(161, 125);
-  ctx.lineTo(63, 190);
-  ctx.lineTo(119, 280);
+  ctx.lineTo(40, 204);
+  ctx.lineTo(100, 295);
   ctx.lineTo(160, 256);
   ctx.lineTo(160, 556);
   ctx.lineTo(479, 556);
   ctx.lineTo(479, 256);
-  ctx.lineTo(520, 280);
-  ctx.lineTo(577, 190);
+  ctx.lineTo(539, 295);
+  ctx.lineTo(597, 204);
   ctx.lineTo(477, 125);
   ctx.lineTo(369, 102);
   ctx.quadraticCurveTo(319, 127, 270, 102);
-  ctx.lineTo(161, 125);
-
+  //ctx.stroke();
   ctx.fillStyle = document.querySelector("#inputColor").value;
   ctx.fill();
 
