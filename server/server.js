@@ -1,22 +1,28 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var fs = require('fs');
-var app = express();
+const express = require('express');
+const bodyParser = require('body-parser');
+const fs = require('fs');
+const app = express();
 const router = require('express-promise-router')();
 
-var {PythonShell} = require('python-shell');
+const {PythonShell} = require('python-shell');
 const cookieParser = require('cookie-parser');
-
-app.use(cookieParser());
-
-app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({ limit:'100mb',extended: true }));
-
 const multer  = require('multer');
-let execSync = require('child_process').execSync;
+const execSync = require('child_process').execSync;
 const path = require("path");
 
 var uuid = null;
+
+app.set("view engine", "ejs");
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ limit:'100mb',extended: true }));
+app.use(express.static('images'))
+app.use(express.static('image'))
+
+
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
 
 /* DO NOT USE LOCALHOST */
 // var options = {
@@ -31,7 +37,7 @@ var uuid = null;
 const sleep = (millis,request,response) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      console.log(request);
+      // console.log(request);
       var test = request.cookies.test;
       const path = 'images/share_image/' + test + '.png';
       var pyshell = new PythonShell('color.py',{mode:'text'});
@@ -58,21 +64,11 @@ const redirects = (millis,res,req) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       var test = req.cookies.test;
-      res.redirect(307,'/result/'+test);
+      res.redirect(307,'/result_'+test);
       resolve()
     }, millis);
   });
 };
-
-app.use(express.static('images'))
-app.use(express.static('image'))
-
-
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
-app.use(express.static('images'));
-app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
   var file = fs.readdirSync('./images/share_image');
@@ -84,13 +80,12 @@ app.get('/', function (req, res) {
   res.render("index",{files:files});
 });
 
-app.get('/result/:uuid', function (req, res) {
-  //res.sendfile(cloth_import);
-  console.log("きとる");
-  console.log(cloth_result);
+app.get('/result_:uuid', function (req, res) {
   var cloth_result = req.cookies.cloth_result;
   var cloth_url = req.cookies.cloth_url;
   var test = req.cookies.test;
+  console.log("cloth_result -->",cloth_result,"cloth_url -->",cloth_url,"test -->",test);
+
   res.render("result",{file:cloth_result, url:cloth_url, image:"/share_image/"+test + ".png"});
 });
 

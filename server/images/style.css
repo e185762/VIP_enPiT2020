@@ -26,14 +26,20 @@
 
 body {
 	background-image: url("home.jpg");
-  background-size: cover;
+  background-size: contain;
+  margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
 }
 
 canvas {
   /* background-image: url("Tshirt.png");  */
   background-color: white;
   background-position: right 50% bottom 97%;
-  background-size: 103% 103%;
+  /* background-size: 10% 103%; */
   border: solid 5px brown;
   text-align:center;
 }
@@ -198,22 +204,17 @@ img.arrow {
   border: 1px solid black;
 }
 
-<style>
  .container {
-   width: 1000px;
-   display: block;
-   margin: 0 auto;
-   text-align: center;
+   display: table-cell;
  }
  .container>img {
    width: 200px;
    margin: 15px;
  }
- </style>
 
 .hidden_box {
     margin: 2em 0;/*前後の余白*/
-    padding: 0;
+    padding-right:10%;
 }
 
 /*ボタン装飾*/
@@ -223,6 +224,8 @@ img.arrow {
     border-radius: 100vh red;
     background-color: white;
     cursor :pointer;
+    float: right;
+
 }
 
 /*ボタンホバー時*/
@@ -253,13 +256,13 @@ img.arrow {
 
 .result-url{
   border: none;
-  color: #fff;
+  /* color: #fff; */
   display: inline-block;
   cursor: pointer;
   transition: all 0.3s ease 0s;
 }
 
 .result-url:hover {
-  border: 5px solid #003366;
-  transform: translateY(0.1em);
+  transform: scale(0.95, 0.95);
+  box-shadow:  5px 5px 5px 5px red;
 }
