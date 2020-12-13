@@ -72,11 +72,21 @@ const redirects = (millis,res,req) => {
 
 app.get('/', function (req, res) {
   var file = fs.readdirSync('./images/share_image');
-  var files = [];
-  for (let i = 0; i < file.length; i++){
-    var fil = '/share_image/' + file[i];
-    files.push(fil)
+  var lists = [];
+  for (var i=0; i<file.length ;i++){
+    var n = Number(file[i].slice(13,-4));
+    lists.push([n,file[i]]);
   }
+  lists.sort(function(a,b){return(b[0] - a[0]);});
+  for (var i=0; i<lists.length ;i++){
+    file[i] = lists[i][1];
+  }
+  var files = [];
+  for (let i = 0; i < file.length-1; i++){
+    var fil = '/share_image/' + file[i];
+    files.push(fil);
+  }
+  console.log(files);
   res.render("index",{files:files});
 });
 
@@ -127,9 +137,18 @@ async function awaitRedirect(res,req) {
 }
 
 function getUniqueStr(myStrong){
- var strong = 1000;
- if (myStrong) strong = myStrong;
- return new Date().getTime().toString(16)  + Math.floor(strong*Math.random()).toString(16)
+  var file = fs.readdirSync('./images/share_image');
+  var n_large = null;
+  for (let i = 1; i < file.length; i++){
+    var n = file[i].slice(13,-4);
+    n = Number(n);
+    if (n_large < n ){
+      n_large = n
+    }
+  }
+  n_large = n_large+1;
+  var file_name = "make_T_shirt_" + String(n_large) ;
+ return file_name
 }
 
 app.listen(443);

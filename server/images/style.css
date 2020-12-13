@@ -54,7 +54,7 @@ div{
   margin-bottom: 40px;
 }
 
-.icon-color{               
+.icon-color{
   display      : inline-block;
   border: none;
   border-radius: 10%;
@@ -84,7 +84,7 @@ img.arrow {
 .arrow:hover {
   box-shadow   : none;                 /* 影の設定 */
 }
-  
+
 .icon-button {
   display      : inline-block;
   border: none;
