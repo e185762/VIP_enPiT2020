@@ -108,6 +108,8 @@ app.get('/result_:uuid', function (req, res) {
 });
 
 app.get('/download', async (req, res) => {
+  uuid = getUniqueStr();
+  res.cookie('test', uuid, {maxAge:60000, httpOnly:false});
   res.redirect('/analysis/'+uuid);
 });
 
@@ -122,8 +124,6 @@ app.post('/download', async (req, res) => {
     if(err) console.log('error', err);
   });
   uuid = getUniqueStr();
-  res.cookie('test', uuid, {maxAge:60000, httpOnly:false});
-
   console.log("uuid -->",uuid);
   fs.writeFile('./images/share_image/' + uuid + '.png', buf, function(err, result) {
     if(err) console.log('error', err);
