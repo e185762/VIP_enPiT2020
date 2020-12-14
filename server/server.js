@@ -51,18 +51,20 @@ const sleep = (millis,request,response) => {
           path_list.push(cloth_result);
           // console.log(path_list);
           // console.log(n);
-          response.cookie('cloth_result', cloth_result, {maxAge:60000, httpOnly:false})
+          // response.cookie('cloth_result', cloth_result, {maxAge:60000, httpOnly:false})
           // response.cookie('cloth_result', path_list, {maxAge:60000, httpOnly:false});
         }
         else if (n%2==1){
           cloth_url =  data;
-          response.cookie('cloth_url', cloth_url, {maxAge:60000, httpOnly:false});
+          // response.cookie('cloth_url', cloth_url, {maxAge:60000, httpOnly:false});
           url_list.push(data)
           // console.log(url_list);
           // response.cookie('cloth_url', url_list, {maxAge:60000, httpOnly:false});
         }
         n += 1
       });
+      response.cookie('cloth_result', path_list, {maxAge:60000, httpOnly:false});
+      response.cookie('cloth_url', url_list, {maxAge:60000, httpOnly:false});
       resolve()
     }, millis);
   });
@@ -104,7 +106,7 @@ app.get('/result_:uuid', function (req, res) {
   var test = req.cookies.test;
   console.log("cloth_result -->",cloth_result,"cloth_url -->",cloth_url,"test -->",test);
 
-  res.render("result",{file:path_list, url:url_list, image:"/share_image/"+test + ".png"});
+  res.render("result",{file:cloth_result, url:cloth_url, image:"/share_image/"+test + ".png"});
 });
 
 app.get('/download', async (req, res) => {
