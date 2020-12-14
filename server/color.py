@@ -48,7 +48,7 @@ def color_divide(blue,green,red):
     else:
         if(red == blue and red == green):
 #             print("判別できない")
-            return null
+            return None
         else:
             if (red >= green and red >= blue):
                 if (green >= blue):
