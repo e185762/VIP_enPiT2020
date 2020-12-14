@@ -198,8 +198,9 @@ def Similar_Search(color_list):
 #         plt.show()
 
     # print(URL_LIST)
-    print(URL_LIST[0][2])
-    print(URL_LIST[0][1])
+    for i in URL_LIST:
+        print(i[2])
+        print(i[1])
 
 IMAGE = input()
 color_hist = color_search(IMAGE)
