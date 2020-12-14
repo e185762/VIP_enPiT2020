@@ -15,8 +15,9 @@
         <img src=<%= image %> width="640px" height="640px" alt="検索結果の画像"">
       </td>
       <td>
-        <a class="result-url" href=<%= url %> target="_blank" rel="noopener noreferrer"><img src=<%= file %> width="600px" height="600px"></a>
-      </td><br>
+        <% for (var i = 0; i < file.length; i++) { %>
+          <a class="result-url" href=<%= url[i] %> target="_blank" rel="noopener noreferrer"><img src=<%= file[i] %> width="600px" height="600px"></a>
+          <% } %>      </td><br>
       </table>
     <center><button id="return">検索画面にもどる</button></center>
      <% } %>
