@@ -4,6 +4,7 @@ import sqlite3
 import io
 import cv2
 import matplotlib.pyplot as plt
+import sys
 
 def access_db ():
     import numpy as np
@@ -145,7 +146,7 @@ def color_search(IMAGE):
     img = cv2.imread(image) #画つ目の像を読み出しオブジェクトimg_1に代入
 
     #画像の表示
-    plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)) # OpenCV は色がGBR順なのでRGB順に並べ替える
+    # plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)) # OpenCV は色がGBR順なのでRGB順に並べ替える
 #     plt.show()
 
     RGB = []
@@ -194,14 +195,15 @@ def Similar_Search(color_list):
         image = i[2]
         img = cv2.imread(image) #画つ目の像を読み出しオブジェクトimg_1に代入
         #画像の表示
-        plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)) # OpenCV は色がGBR順なのでRGB順に並べ替える
+        # plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)) # OpenCV は色がGBR順なのでRGB順に並べ替える
 #         plt.show()
 
-    print(URL_LIST)
-    print(URL_LIST[0][2])
-    print(URL_LIST[0][1])
+    # print(URL_LIST)
+    for i in URL_LIST:
+        print(i[2])
+        print(i[1])
 
-IMAGE = "images/downloads/canvas.png"
+IMAGE = input()
 color_hist = color_search(IMAGE)
 Similar_Search(color_hist)
 

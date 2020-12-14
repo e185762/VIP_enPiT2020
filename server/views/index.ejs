@@ -13,30 +13,55 @@
     <p class="text">このサイトは自分のデザインから類似した服を見つけることができます</p><br>
     <h2 class="text">まずは自分のイメージする洋服を描いてみよう</h2>
   </center>
+  <table cellspacing="0" cellpadding="20" align="center">
+    <td>
+      <canvas id="canvas" width="640px" height="640px">残念ながらHTML5に対応していません
+    </td>
+    <td>
+      <img class="arrow" id="prevCanvas" src="prev.png">
+      <img class="arrow" id="nextCanvas" src="next.png"><br>
+      <input class="icon-color inputColor" id="inputColor" type="color" value="#ff0000"><br>
+      <button class="icon-color warm-color" id="warm-color">あたたかい色</button><br>
+      <button class="icon-color cold-color" id="cold-color">つめたい色</button><br><br>
+      <img class="icon-button large" id="pen" src="pen.png">
+      <img class="icon-button large" id="eraser" src="eraser.png">
+      <img class="icon-button large" id="fillColor" src="pail.png"><br>
+      <button class="icon-button small" id="pen-s">細</button>
+      <button class="icon-button medium" id="pen-m">中</button>
+      <button class="icon-button" id="pen-l">太</button><br>
+      <!-- <button class="fillColorSleevesL" id="fillColorSleevesL">塗りつぶし(袖左)</button>
+      <button class="fillColorSleevesR" id="fillColorSleevesR">塗りつぶし(袖右)</button> -->
+      <button class="icon-operate clear" id="clear">全削除</button><br>
+      <button class="icon-operate buttonSave" id="buttonSearch">検索する</button>
+      <button class="icon-operate buttonSave" id="buttonSave">保存する</button>
+    </td>
+</table>
+    <% if (locals.files) { %>
+        <center><h1 class="text">今まで検索されたもの</h1><br></center>
+        <% for (var i = 0; i < 4; i++) { %>
+            <div class="container">
+                <img src=<%= files[i] %>>
+            </div>
+        <% } %>
+        <div class="hidden_box">
+            <label for="label1">もっと見る v</label>
+            <input type="checkbox" id="label1"/>
+            <div class="hidden_show">
+                <% for (var i = 4; i < files.length; i++) { %>
+                    <!--非表示ここから-->
+                    <div class="container">
+                        <img src=<%= files[i] %>>
+                    </div>
+                    <!--ここまで-->
 
-  <div>
-    <canvas id="canvas" width="640px" height="640px">残念ながらHTML5に対応していません
-  </div>
-  <div>
-    <img class="arrow" id="prevCanvas" src="prev.png">
-    <img class="arrow" id="nextCanvas" src="next.png"><br>
-    <input class="inputColor" id="inputColor" type="color" value="#ff0000"><br>
-    <button class="warm-color" id="warm-color">あたたかい色</button><br>
-    <button class="cold-color" id="cold-color">つめたい色</button><br><br>
-    <img class="icon-button large" id="eraser" src="eraser.png">
-    <img class="icon-button large" id="fillColor" src="pail.png"><br>
-    <button class="icon-button small" id="pen-s">S</button>
-    <button class="icon-button medium" id="pen-m">M</button>
-    <button class="icon-button" id="pen-l">L</button><br>
-    <!-- <button class="fillColorSleevesL" id="fillColorSleevesL">塗りつぶし(袖左)</button>
-    <button class="fillColorSleevesR" id="fillColorSleevesR">塗りつぶし(袖右)</button> -->
-    <button id="clear">全削除</button><br>
-    <button id="buttonSave">保存する</button>
-  </div>
+                <% } %>
+            </div>
+        </div>
+    <% } %>
+    </div>
 
 
-      
-<script type="text/javascript">
+    <script type="text/javascript">
 //const fs = require('fs');
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
@@ -116,6 +141,12 @@ canvas.addEventListener("mouseup", function(e){
   }
   setLocalStoreage()
 });
+
+//ペン
+  $('#pen').click(function(e) {
+    erase = false;
+    ctx.strokeStyle = document.querySelector("#inputColor").value;
+  });
 
 //ラインの太さ
   $('#pen-s').click(function(e) {
@@ -215,7 +246,6 @@ $('#fillColorSleevesR').click(function(e) {
 
 $('#prevCanvas').click(function(e) {
   var logs = JSON.parse(myStorage.getItem("__log"));
- 
  if(logs.length > 0) {
     temp.unshift(logs.shift());
 
@@ -234,7 +264,6 @@ $('#prevCanvas').click(function(e) {
 
 $('#nextCanvas').click(function(e) {
   var logs = JSON.parse(myStorage.getItem("__log"));
- 
  if(temp.length > 0) {
     logs.unshift(temp.shift());
 
@@ -276,15 +305,12 @@ function prev_next_draw(src) {
       ctx.drawImage(draw_img, 0, 0, 640, 640);
     }
 }
-// 保存ボタンの処理
-$('#buttonSave').click(function(e) {
-  const SAVE_URL = 'http://13.113.194.238:443/download';
+
+// 検索ボタンの処理
+$('#buttonSearch').click(function(e) {
+  // const SAVE_URL = 'http://13.113.194.238:443/download';
   var canvas = document.getElementById('canvas');
   var base64 = canvas.toDataURL("image/png");
-  let link = document.createElement("a");
-  link.href = canvas.toDataURL("image/png");
-  link.download = "canvas.png";
-  link.click();
   // console.log(base64);
   // 送信情報の設定
   if (base64) {
@@ -296,8 +322,18 @@ $('#buttonSave').click(function(e) {
 
 });
 
+// 保存ボタンの処理
+$('#buttonSave').click(function(e) {
+  var canvas = document.getElementById('canvas');
+  var base64 = canvas.toDataURL("image/png");
+  let link = document.createElement("a");
+  link.href = canvas.toDataURL("image/png");
+  link.download = "canvas.png";
+  link.click();
+});
+
 async function sendServer(param) {
-  
+
   return fetch('./download', {
       method: "POST",
       headers: {
@@ -316,7 +352,7 @@ function hex2rgb ( hex ) {
 	var hex =  [ hex.slice( 0, 2 ), hex.slice( 2, 4 ), hex.slice( 4, 6 ) ].map( function ( str ) {
 		return parseInt( str, 16 ) ;
   } ) ;
-  
+
   return 'rgb' + '(' + hex[0] + ',' + hex[1] + ',' + hex[2] + ')';
 }
 
@@ -456,7 +492,14 @@ $(document).ready(function () {
   });
 });
 
+$("#check").on("click", function(){
+  if($(this).prop("checked") == true){
+    $("#result").text("true");
+  }else{
+    $("#result").text("false");
+  }
+});
+
 </script>
 </body>
 </html>
-
