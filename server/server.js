@@ -10,7 +10,7 @@ const multer  = require('multer');
 const execSync = require('child_process').execSync;
 const path = require("path");
 
-var uuid = null;
+var uuid;
 
 app.set("view engine", "ejs");
 app.use(cookieParser());
@@ -24,7 +24,6 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-/* DO NOT USE LOCALHOST */
 var options = {
      mode: 'text',
      pythonPath: '/usr/local/bin/python',
@@ -40,7 +39,7 @@ const sleep = (millis,request,response) => {
       // console.log(request);
       var test = request.cookies.test;
       const path = 'images/share_image/' + test + '.png';
-      var pyshell = new PythonShell('color.py',{mode:'text'});
+      var pyshell = new PythonShell('color.py',options,{mode:'text'});
       pyshell.send(path);
       var n=0;
       path_list = [];
@@ -124,6 +123,7 @@ app.post('/download', async (req, res) => {
     if(err) console.log('error', err);
   });
   uuid = getUniqueStr();
+  console.log("uuid -->",uuid);
   fs.writeFile('./images/share_image/' + uuid + '.png', buf, function(err, result) {
     if(err) console.log('error', err);
   });
