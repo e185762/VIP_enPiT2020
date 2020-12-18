@@ -110,7 +110,7 @@ app.get('/result_:uuid', function (req, res) {
 });
 
 app.get('/download', async (req, res) => {
-  uuid = getUniqueStr();
+  // uuid = getUniqueStr();
   res.cookie('test', uuid, {maxAge:60000, httpOnly:false});
   res.redirect('/analysis/'+uuid);
 });

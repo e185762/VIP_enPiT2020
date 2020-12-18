@@ -8,57 +8,60 @@
  </head>
  <body>
 
-	<center>
-    <h1 class="text">ようこそ！</h1><br>
-    <p class="text">このサイトは自分のデザインから類似した服を見つけることができます</p><br>
-    <h2 class="text">まずは自分のイメージする洋服を描いてみよう</h2>
-  </center>
-  <table cellspacing="0" cellpadding="20" align="center">
-    <td>
-      <canvas id="canvas" width="640px" height="640px">残念ながらHTML5に対応していません
-    </td>
-    <td>
-      <img class="arrow" id="prevCanvas" src="prev.png">
-      <img class="arrow" id="nextCanvas" src="next.png"><br>
-      <input class="icon-color inputColor" id="inputColor" type="color" value="#ff0000"><br>
-      <button class="icon-color warm-color" id="warm-color">あたたかい色</button><br>
-      <button class="icon-color cold-color" id="cold-color">つめたい色</button><br><br>
-      <img class="icon-button large" id="pen" src="pen.png">
-      <img class="icon-button large" id="eraser" src="eraser.png">
-      <img class="icon-button large" id="fillColor" src="pail.png"><br>
-      <button class="icon-button small" id="pen-s">細</button>
-      <button class="icon-button medium" id="pen-m">中</button>
-      <button class="icon-button" id="pen-l">太</button><br>
-      <!-- <button class="fillColorSleevesL" id="fillColorSleevesL">塗りつぶし(袖左)</button>
-      <button class="fillColorSleevesR" id="fillColorSleevesR">塗りつぶし(袖右)</button> -->
-      <button class="icon-operate clear" id="clear">全削除</button><br>
-      <button class="icon-operate buttonSave" id="buttonSearch">検索する</button>
-      <button class="icon-operate buttonSave" id="buttonSave">保存する</button>
-    </td>
-</table>
+  <div class="bg1">
+    <center>
+      <h1 class="text">ようこそ！</h1><br>
+      <p class="text">このサイトは自分のデザインから類似した服を見つけることができます</p><br>
+      <h2 class="text">まずは自分のイメージする洋服を描いてみよう</h2>
+    </center>
+    <table cellspacing="0" cellpadding="20" align="center">
+      <td>
+        <canvas id="canvas" width="640px" height="640px">残念ながらHTML5に対応していません
+      </td>
+      <td>
+        <img class="arrow" id="prevCanvas" src="prev.png">
+        <img class="arrow" id="nextCanvas" src="next.png"><br>
+        <input class="icon-color inputColor" id="inputColor" type="color" value="#ff0000"><br>
+        <button class="icon-color warm-color" id="warm-color">あたたかい色</button><br>
+        <button class="icon-color cold-color" id="cold-color">つめたい色</button><br><br>
+        <img class="icon-button large" id="pen" src="pen.png">
+        <img class="icon-button large" id="eraser" src="eraser.png">
+        <img class="icon-button large" id="fillColor" src="pail.png"><br>
+        <button class="icon-button small" id="pen-s">細</button>
+        <button class="icon-button medium" id="pen-m">中</button>
+        <button class="icon-button" id="pen-l">太</button><br><br>
+        <!-- <button class="fillColorSleevesL" id="fillColorSleevesL">塗りつぶし(袖左)</button>
+        <button class="fillColorSleevesR" id="fillColorSleevesR">塗りつぶし(袖右)</button> -->
+        <!-- <button class="icon-operate clear" id="clear">全削除</button><br> -->
+        <!-- <button class="icon-operate buttonSave" id="buttonSearch">検索する</button>
+        <button class="icon-operate buttonSave" id="buttonSave">保存する</button> -->
+        <a class="btn btn-border" id="clear"><span>全削除</span></a><br>
+        <a class="btn btn-border" id="buttonSearch"><span>検索する</span></a><br>
+        <a class="btn btn-border" id="buttonSave"><span>保存する</span></a><br>
+      </td>
+    </table>
     <% if (locals.files) { %>
-        <center><h1 class="text">今まで検索されたもの</h1><br></center>
-        <% for (var i = 0; i < 4; i++) { %>
+      <center><h1 class="text">今まで検索されたもの</h1><br></center>
+      <% for (var i = 0; i < 4; i++) { %>
+        <div class="container">
+          <img src=<%= files[i] %>>
+        </div>
+      <% } %>
+      <div class="hidden_box">
+        <label for="label1">もっと見る v</label>
+        <input type="checkbox" id="label1"/>
+        <div class="hidden_show">
+          <% for (var i = 4; i < files.length; i++) { %>
+            <!--非表示ここから-->
             <div class="container">
                 <img src=<%= files[i] %>>
             </div>
-        <% } %>
-        <div class="hidden_box">
-            <label for="label1">もっと見る v</label>
-            <input type="checkbox" id="label1"/>
-            <div class="hidden_show">
-                <% for (var i = 4; i < files.length; i++) { %>
-                    <!--非表示ここから-->
-                    <div class="container">
-                        <img src=<%= files[i] %>>
-                    </div>
-                    <!--ここまで-->
-
-                <% } %>
-            </div>
+            <!--ここまで-->
+          <% } %>
         </div>
+      </div>
     <% } %>
-    </div>
+  </div>
 
 
     <script type="text/javascript">
