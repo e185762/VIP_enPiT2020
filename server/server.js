@@ -32,7 +32,8 @@ var options = {
      scriptPath: '/home/ec2-user/VIP_enPiT2020/server/'
     };
 
-
+const path_list = [];
+const url_list = [];
 const sleep = (millis,request,response) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -42,24 +43,16 @@ const sleep = (millis,request,response) => {
       var pyshell = new PythonShell('color.py',options,{mode:'text'});
       pyshell.send(path);
       var n=0;
-      path_list = [];
-      url_list = [];
       pyshell.on('message',function (data){
         if(n%2==0){
-          cloth_result = data;
-          cloth_result=cloth_result.substring(5);
+          var cloth_result = data;
+          cloth_result = cloth_result.substring(5);
           path_list.push(cloth_result);
-          // console.log(path_list);
-          // console.log(n);
-          // response.cookie('cloth_result', cloth_result, {maxAge:60000, httpOnly:false})
-          // response.cookie('cloth_result', path_list, {maxAge:60000, httpOnly:false});
+          console.log("path --> ",path_list);
         }
         else if (n%2==1){
-          cloth_url =  data;
-          // response.cookie('cloth_url', cloth_url, {maxAge:60000, httpOnly:false});
           url_list.push(data);
-          // console.log(url_list);
-          // response.cookie('cloth_url', url_list, {maxAge:60000, httpOnly:false});
+          console.log("url_list --> ",url_list);
         }
         n += 1
       });
@@ -110,7 +103,7 @@ app.get('/result_:uuid', function (req, res) {
 });
 
 app.get('/download', async (req, res) => {
-  // uuid = getUniqueStr();
+  uuid = getUniqueStr();
   res.cookie('test', uuid, {maxAge:60000, httpOnly:false});
   res.redirect('/analysis/'+uuid);
 });
@@ -125,7 +118,8 @@ app.post('/download', async (req, res) => {
   fs.writeFile('./images/downloads/canvas.png', buf, function(err, result) {
     if(err) console.log('error', err);
   });
-  uuid = getUniqueStr();
+  //uuid = getUniqueStr();
+ // res.cookie('test', uuid, {maxAge:60000, httpOnly:false});
   console.log("uuid -->",uuid);
   fs.writeFile('./images/share_image/' + uuid + '.png', buf, function(err, result) {
     if(err) console.log('error', err);
