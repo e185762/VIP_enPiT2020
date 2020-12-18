@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 const multer  = require('multer');
 const execSync = require('child_process').execSync;
 const path = require("path");
+const { resolve } = require('path');
 
 var uuid = null;
 
@@ -32,8 +33,8 @@ var options = {
      scriptPath: '/home/ec2-user/VIP_enPiT2020/server/'
     };
 
-const sleep = (millis,request,response) => {
-  return new Promise((resolve, reject) => {
+const py_run = (millis,request,response) => {
+  new Promise((resolve, reject) => {
     setTimeout(() => {
       // console.log(request);
       
@@ -149,7 +150,8 @@ app.get('/analysis/:uuid', (req, res) => {
     }
     if(fd){
         console.log("ファイルが存在する時の処理");
-        awaitFunc(req,res).then(() => {awaitRedirect(res,req)});
+        awaitFunc(req,res);
+        awaitRedirect(res,req);
     }
 });
   //awaitFunc(res)
@@ -157,13 +159,15 @@ app.get('/analysis/:uuid', (req, res) => {
 
 async function awaitFunc(req,res) {
   console.log(1);
-  await sleep(2000,req,res); // Promise が返ってくるまで awaitで 処理停止
+  const result = await py_run(2000,req,res); // Promise が返ってくるまで awaitで 処理停止
   console.log(2); // 約3秒経過に表示
+  return result;
 }
 async function awaitRedirect(res,req) {
   console.log(3);
-  await redirects(3000,res,req); // Promise が返ってくるまで awaitで 処理停止
+  const result = await redirects(3000,res,req); // Promise が返ってくるまで awaitで 処理停止
   console.log(4); // 約3秒経過に表示
+  return result;
 }
 
 function getUniqueStr(myStrong){
