@@ -36,18 +36,19 @@ const sleep = (millis,request,response) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       // console.log(request);
+      
       var test = request.cookies.test;
       const path = 'images/share_image/' + test + '.png';
-      var pyshell = new PythonShell('color.py',{mode:'text'});
+      var pyshell = new PythonShell('color.py',options,{mode:'text'});
       pyshell.send(path);
       var n=0;
       const path_list = [];
       const url_list = [];
-      pyshell.on('message',options,function (data){
-      console.log(data)
+      pyshell.on('message',function (data){
+      console.log(data);
       if(data=="fin"){
               response.cookie('cloth_result', path_list, {maxAge:60000, httpOnly:false});
-              response.cookie('cloth_url', url_list, {maxAge:60000, httpOnly:false});
+              response.cookie('cloth_url', url_list);
       }
       else if(n%2==0){
           var cloth_result = data;
@@ -107,12 +108,6 @@ app.get('/result_:uuid', function (req, res) {
   res.render("result",{file:cloth_result, url:cloth_url, image:"/share_image/"+test + ".png"});
 });
 
-app.get('/download', async (req, res) => {
-  // uuid = getUniqueStr();
-  // res.cookie('test', uuid, {maxAge:60000, httpOnly:false});
-  res.redirect('/analysis/'+uuid);
-});
-
 app.post('/download', async (req, res, next) => {
   // クライアントからの送信データを取得する
   let body = req.body;
@@ -132,19 +127,35 @@ app.post('/download', async (req, res, next) => {
   next();
 });
 
+app.get('/download', async (req, res, next) => {
+  uuid = getUniqueStr();
+  // res.cookie('test', uuid, {maxAge:60000, httpOnly:false});
+  res.redirect('/analysis/'+uuid);
+});
+
 app.get('/analysis/:uuid', (req, res) => {
-  awaitFunc(req,res).then(() => {awaitRedirect(res,req)});
+    var uuid = req.cookies.test;
+    fs.open('./images/share_image/' + uuid + '.png', 'r', (err, fd) => {
+    if (err) {
+        console.log("ファイルが存在しない時の処理");
+        res.redirect('/analysis/'+uuid);
+    }
+    if(fd){
+        console.log("ファイルが存在する時の処理");
+        awaitFunc(req,res).then(() => {awaitRedirect(res,req)});
+    }
+});
   //awaitFunc(res)
 });
 
 async function awaitFunc(req,res) {
   console.log(1);
-  await sleep(2000,req,res); // Promise が返ってくるまで awaitで 処理停止
+  await sleep(3000,req,res); // Promise が返ってくるまで awaitで 処理停止
   console.log(2); // 約3秒経過に表示
 }
 async function awaitRedirect(res,req) {
   console.log(3);
-  await redirects(3000,res,req); // Promise が返ってくるまで awaitで 処理停止
+  await redirects(4000,res,req); // Promise が返ってくるまで awaitで 処理停止
   console.log(4); // 約3秒経過に表示
 }
 
