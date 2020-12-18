@@ -199,6 +199,7 @@ def Similar_Search(color_list):
 #         plt.show()
 
     # print(URL_LIST)
+    URL_LIST.append(["fin","fin","fin"])
     for i in URL_LIST:
         print(i[2])
         print(i[1])

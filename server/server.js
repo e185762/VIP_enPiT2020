@@ -32,8 +32,6 @@ var options = {
      scriptPath: '/home/ec2-user/VIP_enPiT2020/server/'
     };
 
-const path_list = [];
-const url_list = [];
 const sleep = (millis,request,response) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -43,21 +41,26 @@ const sleep = (millis,request,response) => {
       var pyshell = new PythonShell('color.py',options,{mode:'text'});
       pyshell.send(path);
       var n=0;
+      const path_list = [];
+      const url_list = [];
       pyshell.on('message',function (data){
-        if(n%2==0){
+	console.log(data)
+	if(data=="fin"){
+          response.cookie('cloth_result', path_list, {maxAge:60000, httpOnly:false});
+          response.cookie('cloth_url', url_list, {maxAge:60000, httpOnly:false});
+	}
+	else if(n%2==0){
           var cloth_result = data;
           cloth_result = cloth_result.substring(5);
           path_list.push(cloth_result);
-          console.log("path --> ",path_list);
+          //console.log("path --> ",path_list);
         }
         else if (n%2==1){
           url_list.push(data);
-          console.log("url_list --> ",url_list);
+          //console.log("url_list --> ",url_list);
         }
         n += 1
       });
-      response.cookie('cloth_result', path_list, {maxAge:60000, httpOnly:false});
-      response.cookie('cloth_url', url_list, {maxAge:60000, httpOnly:false});
       resolve();
     }, millis);
   });
