@@ -200,8 +200,19 @@ def Similar_Search(color_list):
 
     # print(URL_LIST)
     URL_LIST.append(["fin","fin","fin"])
+    count = 0
+    for i in URL_LIST:
+        print(i[2])
+        print(i[1])
+        count+=1
+        if count == 7:
+            print("fin")
+            print("fin")
+            break
+    return 'Similar Search end'
 
 IMAGE = input()
 color_hist = color_search(IMAGE)
-Similar_Search(color_hist)
+result = Similar_Search(color_hist)
+print(result)
 

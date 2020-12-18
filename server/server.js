@@ -11,7 +11,7 @@ const execSync = require('child_process').execSync;
 const path = require("path");
 const { resolve } = require('path');
 
-var uuid = null;
+let uuid = null;
 
 app.set("view engine", "ejs");
 app.use(cookieParser());
@@ -38,8 +38,8 @@ const py_run = (millis,request,response) => {
     setTimeout(() => {
       // console.log(request);
       
-      var test = request.cookies.test;
-      const path = 'images/share_image/' + test + '.png';
+      //var test_id = request.cookies.test;
+      const path = 'images/share_image/' + uuid + '.png';
       var pyshell = new PythonShell('color.py',options,{mode:'text'});
       pyshell.send(path);
       var n=0;
@@ -48,7 +48,7 @@ const py_run = (millis,request,response) => {
       pyshell.on('message',function (data){
       console.log(data);
       if(data=="fin"){
-              response.cookie('test', test, {maxAge:30000, httpOnly:false});
+              response.cookie('test', uuid , {maxAge:30000, httpOnly:false});
 	      response.cookie('cloth_result', path_list, {maxAge:30000, httpOnly:false});
               response.cookie('cloth_url', url_list, {maxAge:30000, httpOnly:false});
       }
@@ -64,16 +64,16 @@ const py_run = (millis,request,response) => {
         }
         n += 1
       });
-      resolve();
-    }, millis);
+      resolve('py_run end');
+    });
   });
 };
 
 const redirects = (millis,res,req) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      var test = req.cookies.test;
-      res.redirect(307,'/result_'+test);
+      //1var test = req.cookies.test;
+      res.redirect(307,'/result_'+uuid);
       resolve()
     }, millis);
   });
@@ -96,6 +96,9 @@ app.get('/', function (req, res) {
     files.push(fil);
   }
   console.log(files);
+  res.cookie('test', null, {maxAge:30000, httpOnly:false});
+  res.cookie('cloth_result', [], {maxAge:30000, httpOnly:false});
+  res.cookie('cloth_url', [], {maxAge:30000, httpOnly:false});
   res.render("index",{files:files});
 });
 
@@ -107,7 +110,7 @@ app.get('/result_:uuid', function (req, res) {
   if (cloth_url === undefined) {
     cloth_url = [];
   }
-  if (cloth_url === undefined) {
+  if (cloth_result === undefined) {
     cloth_result = [];
   }
   //res.cookie('test',{maxAge:0, httpOnly:false});
@@ -126,6 +129,7 @@ app.post('/download', async (req, res, next) => {
   fs.writeFile('./images/downloads/canvas.png', buf, function(err, result) {
     if(err) console.log('error', err);
   });
+  uuid = null; // 初期化
   uuid = getUniqueStr();
   res.cookie('test', uuid, {maxAge:30000, httpOnly:false});
   console.log("uuid -->",uuid);
@@ -142,16 +146,16 @@ app.get('/download', async (req, res, next) => {
 });
 
 app.get('/analysis/:uuid', (req, res) => {
-    var uuid = req.cookies.test;
-    fs.open('./images/share_image/' + uuid + '.png', 'r', (err, fd) => {
+    var name = req.cookies.test;
+    fs.open('./images/share_image/' + name + '.png', 'r', (err, fd) => {
     if (err) {
         console.log("ファイルが存在しない時の処理");
-        res.redirect('/analysis/'+uuid);
+        res.redirect('/analysis/'+name);
     }
     if(fd){
         console.log("ファイルが存在する時の処理");
-        awaitFunc(req,res);
-        awaitRedirect(res,req);
+        var result1 = awaitFunc(req,res);
+        var result2 = awaitRedirect(res,req);
     }
 });
   //awaitFunc(res)
