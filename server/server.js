@@ -47,8 +47,9 @@ const sleep = (millis,request,response) => {
       pyshell.on('message',function (data){
       console.log(data);
       if(data=="fin"){
-              response.cookie('cloth_result', path_list, {maxAge:60000, httpOnly:false});
-              response.cookie('cloth_url', url_list);
+              response.cookie('test', test, {maxAge:30000, httpOnly:false});
+	      response.cookie('cloth_result', path_list, {maxAge:30000, httpOnly:false});
+              response.cookie('cloth_url', url_list, {maxAge:30000, httpOnly:false});
       }
       else if(n%2==0){
           var cloth_result = data;
@@ -105,6 +106,12 @@ app.get('/result_:uuid', function (req, res) {
   if (cloth_url === undefined) {
     cloth_url = [];
   }
+  if (cloth_url === undefined) {
+    cloth_result = [];
+  }
+  //res.cookie('test',{maxAge:0, httpOnly:false});
+  //res.cookie('cloth_result',{maxAge:0, httpOnly:false});
+  //res.cookie('cloth_url',{maxAge:0, httpOnly:false});
   res.render("result",{file:cloth_result, url:cloth_url, image:"/share_image/"+test + ".png"});
 });
 
@@ -119,7 +126,7 @@ app.post('/download', async (req, res, next) => {
     if(err) console.log('error', err);
   });
   uuid = getUniqueStr();
-  res.cookie('test', uuid, {maxAge:60000, httpOnly:false});
+  res.cookie('test', uuid, {maxAge:30000, httpOnly:false});
   console.log("uuid -->",uuid);
   fs.writeFile('./images/share_image/' + uuid + '.png', buf, function(err, result) {
     if(err) console.log('error', err);
@@ -128,7 +135,7 @@ app.post('/download', async (req, res, next) => {
 });
 
 app.get('/download', async (req, res, next) => {
-  uuid = getUniqueStr();
+  //uuid = getUniqueStr();
   // res.cookie('test', uuid, {maxAge:60000, httpOnly:false});
   res.redirect('/analysis/'+uuid);
 });
@@ -150,12 +157,12 @@ app.get('/analysis/:uuid', (req, res) => {
 
 async function awaitFunc(req,res) {
   console.log(1);
-  await sleep(3000,req,res); // Promise が返ってくるまで awaitで 処理停止
+  await sleep(2000,req,res); // Promise が返ってくるまで awaitで 処理停止
   console.log(2); // 約3秒経過に表示
 }
 async function awaitRedirect(res,req) {
   console.log(3);
-  await redirects(4000,res,req); // Promise が返ってくるまで awaitで 処理停止
+  await redirects(3000,res,req); // Promise が返ってくるまで awaitで 処理停止
   console.log(4); // 約3秒経過に表示
 }
 
