@@ -9,25 +9,22 @@
  <body>
   <div class="bg1">
     <% if (locals.file) { %>
-      <center><h1 class="text">検索結果はこちらです</h1></center><br>
+      <center><h1 class="text">検索結果はこちらです</h1></center>
       <table cellspacing="0" cellpadding="20" align="center">
-        <td>
-          <img src=<%= image %> width="640px" height="640px" alt="検索結果の画像"">
-        </td>
-        <td>
-          <% for (var i = 0; i < file.length; i++) { %>
-            <a class="result-url" href=<%= url[i] %> target="_blank" rel="noopener noreferrer"><img src=<%= file[i] %> width="600px" height="600px"></a>
-            <% } %>        
-        </td><br>
-      </table>
-      <center><button id="return">検索画面にもどる</button></center>
+        <center><img src=<%= image %> width="640px" height="640px" alt="検索結果の画像"><br>
+        <% for (var i = 0; i < file.length; i++) { %>
+          <a class="result-url" href=<%= url[i] %> target="_blank" rel="noopener noreferrer"><img src=<%= file[i] %> width="300px" height="300px"></a>
+        <% } %> 
+        </center>
+      </table><br>
+      <center><button id="return">検索画面にもどる</button></center><br><br><br>
     <% } %>
   </div>
       
 <script type="text/javascript">
 
 $('#return').click(function(e) {
-  location.href = "http://13.113.194.238:443";
+  location.href = "http://localhost:443";
 });
 </script>
 </body>

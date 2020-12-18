@@ -1,17 +1,14 @@
 
-.just img {
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
+img.just  {
   position: relative;
+  margin-top: 50px;
 }
 
 .text {
-  display        : inline-block;
-  color          : #ffffff;            /* 文字の色 */
-  font-size      : 15pt;               /* 文字のサイズ */
-  letter-spacing : 4px;                /* 文字間 */
+  /* display        : inline-block;
+  color          : #ffffff;           
+  font-size      : 15pt;           
+  letter-spacing : 4px;               
   text-shadow    :
        2px  2px 1px #003366,
       -2px  2px 1px #003366,
@@ -20,7 +17,22 @@
        2px  0px 1px #003366,
        0px  2px 1px #003366,
       -2px  0px 1px #003366,
-       0px -2px 1px #003366;        /* 文字の影 */
+       0px -2px 1px #003366;         */
+  display: inline-block;
+  font-size: 20px;
+  /* text-align: center; */
+  line-height: 50px;
+  font-weight: bold;
+  color: #FFF;
+  letter-spacing : 4px;
+  text-shadow: 
+    0 0 0.10em #0019ff,
+    0 0 0.20em #0019ff,
+    0 0 0.30em #0019ff,
+    0 0 0.40em #0019ff;
+  filter: saturate(80%);
+      
+      
 }
 
 canvas {
@@ -32,19 +44,26 @@ canvas {
   text-align:center;
 }
 
-div{
-  float: left;
-  display: flex;
-	justify-content: center;
-  margin-right:20px;
-  display:table;
-  table-layout:fixed;
-  margin-bottom: 40px;
+body {
+  margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+  
+input {
+  margin: 0;
+	padding: 5px;
+  border: 0;
+  width: 50px;
+  height: 50px;
 }
 
 .bg1{
   background : linear-gradient(to right , #f7797d80, #FBD78680, #C6FFDD80), url("home2.jpg");
-  background-size: contain;
+  background-size: 100%;
   margin: 0;
 	padding: 0;
 	border: 0;
@@ -53,12 +72,13 @@ div{
   vertical-align: baseline;
   background-attachment: fixed;
 	background-repeat: no-repeat;
-	background-position: center center;
+  background-position: center center;
+  justify-content: center;
   box-shadow:
-    inset 0 0 50px #fff /* 背景色と同じ色 */,
-    inset 0 0 50px #fff,
-    inset 0 0 50px #fff,
-    inset 0 0 50px #fff;
+    inset 0 0 10px #fff,
+    inset 0 0 10px #fff,
+    inset 0 0 10px #fff,
+    inset 0 0 10px #fff;
 }
 
 .btn,
@@ -83,6 +103,49 @@ button.btn {
   letter-spacing: 0.1em;
   color: #212529;
   border-radius: 0.5rem;
+}
+
+
+a.btn-border-palette {
+  margin-bottom: 12px;
+  padding: 5px;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  border: 1px solid #000;
+  background-image: -webkit-repeating-linear-gradient(
+    135deg,
+    #000,
+    #000 1px,
+    transparent 2px,
+    transparent 5px
+  );
+  background-image: repeating-linear-gradient(
+    -45deg,
+    #000,
+    #000 1px,
+    transparent 2px,
+    transparent 5px
+  );
+  background-size: 7px 7px;
+  background-color: rgba(42, 44, 165, 0.637);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+a.btn-border-palette span {
+  position: relative;
+  display: block;
+  padding: 9px 9px;
+  color: #000;
+  border: 1px solid #000;
+  border-radius: 0.5rem;
+  background: #fff;
+  
+}
+
+a.btn-border-palette:hover {
+  /* padding: 2px; */
+  background-color: rgba(196, 37, 103, 0.637);
 }
 
 a.btn-border {
@@ -149,6 +212,7 @@ a.btn-border:hover {
 
 a.btn-border:hover:before {
   bottom: -5px;
+  background-color: rgba(196, 37, 103, 0.637)
 }
 
 a.btn-border:active {
@@ -159,20 +223,7 @@ a.btn-border:active {
 a.btn-border:active:before {
   bottom: -1px;
 }
-.icon-color{
-  display      : inline-block;
-  border: none;
-  border-radius: 10%;
-  box-shadow   : 3px 3px 3px #668ad8;
-  cursor       : pointer;              /* カーソル形状 */
-  transition   : .3s;
-  background-color: white;
-  margin: 5px 5px; /* 外側の時計回りの余白 */
-}
 
-.icon-color:hover {
-  box-shadow   : none;                 /* 影の設定 */
-}
 
 img.arrow {
   border-radius: 30%;
@@ -221,7 +272,9 @@ img.arrow {
 }
 
 .icon-button:hover {
-  box-shadow   : none;                 /* 影の設定 */
+  box-shadow   : 5px 5px 5px  rgba(196, 37, 103, 0.637);
+  /* background-color: rgba(196, 37, 103, 0.637); */
+  /* box-shadow   : none;                */
 }
 
 #colorpicker:before {
@@ -318,24 +371,30 @@ img.arrow {
  }
 
 .hidden_box {
-    margin: 2em 0;/*前後の余白*/
-    padding-right:10%;
+    margin: 3px;/*前後の余白*/
+    padding-right:8%;
 }
 
 /*ボタン装飾*/
 .hidden_box label {
     padding: 5px;
     font-weight: 2px;
-    border-radius: 100vh red;
     background-color: white;
     cursor :pointer;
     float: right;
-
+    transition   : .3s;
+    cursor       : pointer;              /* カーソル形状 */
+    border-radius:  0.5rem;
+    border: 1px solid #000;
+    margin-bottom: 100px;
 }
 
 /*ボタンホバー時*/
 .hidden_box label:hover {
-    background: #efefef;
+  -webkit-transform: translate(0, 3px);
+  transform: translate(0, 3px);
+  color: white;
+  background:rgba(196, 37, 103, 0.637);
 }
 
 /*チェックは見えなくする*/
@@ -369,5 +428,4 @@ img.arrow {
 
 .result-url:hover {
   transform: scale(0.95, 0.95);
-  box-shadow:  5px 5px 5px 5px red;
 }

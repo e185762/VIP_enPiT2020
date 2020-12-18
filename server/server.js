@@ -38,18 +38,18 @@ const sleep = (millis,request,response) => {
       // console.log(request);
       var test = request.cookies.test;
       const path = 'images/share_image/' + test + '.png';
-      var pyshell = new PythonShell('color.py',options,{mode:'text'});
+      var pyshell = new PythonShell('color.py',{mode:'text'});
       pyshell.send(path);
       var n=0;
       const path_list = [];
       const url_list = [];
       pyshell.on('message',function (data){
-	console.log(data)
-	if(data=="fin"){
-          response.cookie('cloth_result', path_list, {maxAge:60000, httpOnly:false});
-          response.cookie('cloth_url', url_list, {maxAge:60000, httpOnly:false});
-	}
-	else if(n%2==0){
+      console.log(data)
+      if(data=="fin"){
+              response.cookie('cloth_result', path_list, {maxAge:60000, httpOnly:false});
+              response.cookie('cloth_url', url_list, {maxAge:60000, httpOnly:false});
+      }
+      else if(n%2==0){
           var cloth_result = data;
           cloth_result = cloth_result.substring(5);
           path_list.push(cloth_result);
@@ -107,11 +107,11 @@ app.get('/result_:uuid', function (req, res) {
 
 app.get('/download', async (req, res) => {
   uuid = getUniqueStr();
-  res.cookie('test', uuid, {maxAge:60000, httpOnly:false});
+  // res.cookie('test', uuid, {maxAge:60000, httpOnly:false});
   res.redirect('/analysis/'+uuid);
 });
 
-app.post('/download', async (req, res) => {
+app.post('/download', async (req, res, next) => {
   // クライアントからの送信データを取得する
   let body = req.body;
   let parse = JSON.parse(JSON.stringify(body));
@@ -121,15 +121,16 @@ app.post('/download', async (req, res) => {
   fs.writeFile('./images/downloads/canvas.png', buf, function(err, result) {
     if(err) console.log('error', err);
   });
-  //uuid = getUniqueStr();
- // res.cookie('test', uuid, {maxAge:60000, httpOnly:false});
+  uuid = getUniqueStr();
+  res.cookie('test', uuid, {maxAge:60000, httpOnly:false});
   console.log("uuid -->",uuid);
   fs.writeFile('./images/share_image/' + uuid + '.png', buf, function(err, result) {
     if(err) console.log('error', err);
   });
+  next();
 });
 
-app.get('/analysis/:uuid', (req, res, next) => {
+app.get('/analysis/:uuid', (req, res) => {
   awaitFunc(req,res).then(() => {awaitRedirect(res,req)});
   //awaitFunc(res)
 });

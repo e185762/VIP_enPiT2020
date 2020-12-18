@@ -10,31 +10,29 @@
 
   <div class="bg1">
     <center>
+      <img class="just" src="logo.png"><br>
       <h1 class="text">ようこそ！</h1><br>
       <p class="text">このサイトは自分のデザインから類似した服を見つけることができます</p><br>
       <h2 class="text">まずは自分のイメージする洋服を描いてみよう</h2>
     </center>
     <table cellspacing="0" cellpadding="20" align="center">
       <td>
+        <center><input id="inputColor" type="color" value="#ff0000"></center><br><br>
+        <a class="btn btn-border-palette" id="warm-color"><span>あたたかい色</span></a><br>
+        <a class="btn btn-border-palette" id="cold-color"><span>つめたい色</span></a><br>
+      </td>
+      <td>
         <canvas id="canvas" width="640px" height="640px">残念ながらHTML5に対応していません
       </td>
       <td>
-        <img class="arrow" id="prevCanvas" src="prev.png">
-        <img class="arrow" id="nextCanvas" src="next.png"><br>
-        <input class="icon-color inputColor" id="inputColor" type="color" value="#ff0000"><br>
-        <button class="icon-color warm-color" id="warm-color">あたたかい色</button><br>
-        <button class="icon-color cold-color" id="cold-color">つめたい色</button><br><br>
+        <a class="btn btn-border" id="prevCanvas"><span>← もどる</span></a>
+        <a class="btn btn-border" id="nextCanvas"><span>すすむ →</span></a><br><br>
         <img class="icon-button large" id="pen" src="pen.png">
         <img class="icon-button large" id="eraser" src="eraser.png">
         <img class="icon-button large" id="fillColor" src="pail.png"><br>
         <button class="icon-button small" id="pen-s">細</button>
         <button class="icon-button medium" id="pen-m">中</button>
         <button class="icon-button" id="pen-l">太</button><br><br>
-        <!-- <button class="fillColorSleevesL" id="fillColorSleevesL">塗りつぶし(袖左)</button>
-        <button class="fillColorSleevesR" id="fillColorSleevesR">塗りつぶし(袖右)</button> -->
-        <!-- <button class="icon-operate clear" id="clear">全削除</button><br> -->
-        <!-- <button class="icon-operate buttonSave" id="buttonSearch">検索する</button>
-        <button class="icon-operate buttonSave" id="buttonSave">保存する</button> -->
         <a class="btn btn-border" id="clear"><span>全削除</span></a><br>
         <a class="btn btn-border" id="buttonSearch"><span>検索する</span></a><br>
         <a class="btn btn-border" id="buttonSave"><span>保存する</span></a><br>
@@ -48,7 +46,7 @@
         </div>
       <% } %>
       <div class="hidden_box">
-        <label for="label1">もっと見る v</label>
+        <label for="label1">もっと見る</label>
         <input type="checkbox" id="label1"/>
         <div class="hidden_show">
           <% for (var i = 4; i < files.length; i++) { %>
@@ -64,7 +62,7 @@
   </div>
 
 
-    <script type="text/javascript">
+<script type="text/javascript">
 //const fs = require('fs');
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
@@ -206,7 +204,7 @@ $('#fillColor').click(function(e) {
     img2.onload = function(){
       ctx.drawImage(img2, -10, 0, 659, 659);
   }
-  setLocalStoreage()
+  // setLocalStoreage()
 });
 
 //塗りつぶし(袖左)
@@ -320,7 +318,7 @@ $('#buttonSearch').click(function(e) {
     // サーバへ送信
     sendServer(base64);
     document.getElementById("buttonSave").href = base64;
-    location.replace("http://13.113.194.238:443/download");
+    location.replace("http://localhost:443/download");
   }
 
 });
@@ -420,10 +418,10 @@ $.fn.colorpicker = function(options) {
         ctx.strokeStyle = new_color;
 
         // Change the input's background color to reflect the newly selected color
-        element.css({
-          'background-color': '#' + color,
-          color: '#' + colorInvert(color)
-        });
+        // element.css({
+        //   'background-color': '#' + color,
+        //   color: '#' + colorInvert(color)
+        // });
 
         element.trigger({
           type: 'changeColor',
