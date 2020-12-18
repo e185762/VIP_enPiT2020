@@ -5,31 +5,18 @@ img.just  {
 }
 
 .text {
-  /* display        : inline-block;
-  color          : #ffffff;           
-  font-size      : 15pt;           
-  letter-spacing : 4px;               
-  text-shadow    :
-       2px  2px 1px #003366,
-      -2px  2px 1px #003366,
-       2px -2px 1px #003366,
-      -2px -2px 1px #003366,
-       2px  0px 1px #003366,
-       0px  2px 1px #003366,
-      -2px  0px 1px #003366,
-       0px -2px 1px #003366;         */
   display: inline-block;
   font-size: 20px;
-  /* text-align: center; */
   line-height: 50px;
   font-weight: bold;
-  color: #FFF;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  color:black;
   letter-spacing : 4px;
   text-shadow: 
-    0 0 0.10em #0019ff,
-    0 0 0.20em #0019ff,
-    0 0 0.30em #0019ff,
-    0 0 0.40em #0019ff;
+    0 0 0.2em rgb(255, 245, 245),
+    0 0 0.2em   rgb(255, 245, 245),
+    0 0 0.2em   rgb(255, 245, 245),
+    0 0 0.2em  rgb(255, 245, 245);
   filter: saturate(80%);
       
       
