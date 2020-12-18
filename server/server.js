@@ -57,7 +57,7 @@ const sleep = (millis,request,response) => {
         else if (n%2==1){
           cloth_url =  data;
           // response.cookie('cloth_url', cloth_url, {maxAge:60000, httpOnly:false});
-          url_list.push(data)
+          url_list.push(data);
           // console.log(url_list);
           // response.cookie('cloth_url', url_list, {maxAge:60000, httpOnly:false});
         }
@@ -65,7 +65,7 @@ const sleep = (millis,request,response) => {
       });
       response.cookie('cloth_result', path_list, {maxAge:60000, httpOnly:false});
       response.cookie('cloth_url', url_list, {maxAge:60000, httpOnly:false});
-      resolve()
+      resolve();
     }, millis);
   });
 };
